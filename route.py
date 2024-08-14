@@ -4,7 +4,7 @@ from bottle import Bottle, request, redirect, static_file, response, run
 app = Bottle()
 clt = Application()
 
-#-----------------------------------------------------------------------------
+#-----------------------------------------------------------------------------#
 # Rotas:
 
 @app.route('/static/<filepath:path>')
@@ -15,22 +15,34 @@ def serve_static(filepath):
 def helper():
     return clt.render('helper')
 
-#-----------------------------------------------------------------------------
+#-----------------------------------------------------------------------------#
 # Suas rotas aqui:
 
 @app.route('/', method='GET')
 @app.route('/<username>', method='GET')
 def action_pagina(username=None):
-    print(username)
-    if clt.is_authenticated(username):
-        return clt.render('pagina', username=username)
-    else:
-        error = 'Você deve estar logado para acessar a página' 
-        return clt.render('login', error=error)
+    session_id = clt.get_session_id()  # Obtém o session_id do cookie
+    login_message = request.get_cookie('login_message')
+
+    current_user = None
+    if session_id and clt.is_valid_session(session_id):
+        current_user = clt._model.getCurrentUser(session_id)
+        
+        # Se username não for fornecido, usa o username do usuário atual
+        if not username:
+            username = current_user.username
+
+        # Se o username fornecido não corresponder ao usuário atual ou não estiver autenticado
+        if username and (not current_user or username != current_user.username):
+            error = 'Você deve estar logado para acessar esta página'
+            return clt.render('login', error=error)
+
+    # Renderiza a página com base na presença de username e current_user
+    return clt.render('pagina', username=username, current_user=current_user, login_message=login_message)
 
 @app.route('/login', method='GET')
 def login():
-    return clt.render('login', error=None , sucess=None)
+    return clt.render('login', error=None, sucess=None)
 
 @app.route('/login', method=['POST'])
 def action_login():
@@ -44,6 +56,8 @@ def action_login():
 
     if session_id:
         response.set_cookie('session_id', session_id, httponly=True, secure=True, max_age=3600)
+        
+        response.set_cookie('login_message', 'Login realizado com sucesso!', max_age=5)
         redirect(f'/{username}')
     else:
         print("ERRO" * 5)
@@ -62,9 +76,8 @@ def action_cadastro():
     cadastro = clt.verify(username, password)
     
     if not cadastro:
-        # cadastro deu bom, vai pedir para a pessoa fazer login
-        sucess = 'Cadastro realizado com sucesso!'
-        return clt.render('login', sucess=sucess)
+        success = 'Cadastro realizado com sucesso!'
+        return clt.render('login', success=success)
     else: 
         error = 'Já existe uma conta com as informações cadastradas'
         return clt.render('cadastro', error=error)
@@ -75,19 +88,24 @@ def logout():
     response.delete_cookie('session_id')
     redirect('/')
 
-
-@app.route('/oficina/<username>', method=['POST', 'GET'])
+@app.route('/oficina', method=['POST'])
+@app.route('/oficina/<username>', method=['GET'])
 def action_perfil(username=None):
-    print(f'{username} from act perfil')
-    if clt.is_authenticated(username):
-        return clt.render('oficina', username=username)
-    else:
-        error = 'Você deve estar logado para acessar a página' 
+    session_id = clt.get_session_id()  # Obtém o session_id do cookie
+    
+    current_user = None
+    if session_id and clt.is_valid_session(session_id):
+        current_user = clt._model.getCurrentUser(session_id)
+    
+    # Se o usuário não estiver autenticado ou o username fornecido não corresponder ao usuário atual
+    if not current_user or (username and username != current_user.username):
+        error = 'Você deve estar logado para acessar a página'
         return clt.render('login', error=error)
+    
+    # Renderiza a página de perfil
+    return clt.render('oficina', username=current_user.username)
 
 
-
-#----------------------------------------   -------------------------------------
-
+#-----------------------------------------------------------------------------#
 if __name__ == '__main__':
     run(app, host='localhost', port=8080, debug=True)  # Use debug=True para desenvolvimento

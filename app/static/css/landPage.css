@@ -148,3 +148,31 @@ main {
     color: var(--azulao);
     background-color: whitesmoke;
 }
+
+.message {
+    z-index: 999;
+    cursor: pointer;
+    background-color: #000000de;
+    border-radius: 5px;
+    color: white;
+    padding: 0.5em 1em;
+
+    position: absolute;
+    top: 0.5em;
+    left: 50%;
+    translate:-50%;
+
+    transition: all 0.3s ease;
+    animation: 1s ease-in aparecer ;
+}
+
+@keyframes aparecer {
+    0% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    25% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
