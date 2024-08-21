@@ -6,6 +6,8 @@
     <title>Login</title>
 </head>
 <body>
+    <img id="MyStuffs_logo" src="../../static/img/MyStuffs icon.png" alt="Logo">
+    
     <h1>Login</h1>
     % if sucess:
         <h3 style="color:rgb(10, 198, 104); font-size: 0.75em;">{{sucess}}</h3>
