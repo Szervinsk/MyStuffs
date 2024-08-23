@@ -107,16 +107,6 @@ section {
 
 #mainText {
     text-align: center;
-    margin: 0.5em;
-    animation: InUp 0.3s ease-in;
-}
-
-#succes_message{
-    position: absolute;
-    top: 1em;
-    color:rgb(0, 228, 95);
-    font-size: 0.75em;
-
     animation: InUp 0.3s ease-in;
 }
 

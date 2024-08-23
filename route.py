@@ -42,7 +42,7 @@ def action_pagina(username=None):
 
 @app.route('/login', method='GET')
 def login():
-    return clt.render('login', error=None, sucess=None)
+    return clt.render('login', error=None, success=None)
 
 @app.route('/login', method=['POST'])
 def action_login():
@@ -81,6 +81,7 @@ def action_cadastro():
     else: 
         error = 'Já existe uma conta com as informações cadastradas'
         return clt.render('cadastro', error=error)
+
 
 @app.route('/logout', method='POST')
 def logout():

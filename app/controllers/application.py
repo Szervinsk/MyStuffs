@@ -52,10 +52,19 @@ class Application:
         if session_id:
             self._model.logout(session_id)
 
-# def das páginas de login e cadastro
-    def login(self, error=None, sucess=None):
-        return template('app/views/html/login', error=error, sucess=sucess)
+    def verify(self, username, password):
+        if self._model.compareUsers(username): 
+            print('Já existe um usuário')
+            return True
+        else:
+            self._model.book(username, password)
+            return False
 
+
+# def das páginas de login e cadastro
+    def login(self, error=None, success=None):
+        return template('app/views/html/login', error=error, success=success)
+    
     def cadastro(self, error=None):
         return template('app/views/html/cadastro', error=error)
 
