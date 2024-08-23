@@ -3,7 +3,9 @@
 * {
     --azule: #11214B;
     --azulao: #0085FF;
-
+    --vermeio: #ff2c2c;
+    --cinzinha: #D9D9D9;
+    --verdin: #00e45f;
 }
 
 html,
@@ -114,7 +116,7 @@ section {
 #succes_message{
     position: absolute;
     top: 1em;
-    color:rgb(0, 228, 95);
+    color:var(--verdin);
     font-size: 0.75em;
 
     animation: InUp 0.3s ease-in;

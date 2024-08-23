@@ -22,7 +22,7 @@ def helper():
 @app.route('/<username>', method='GET')
 def action_pagina(username=None):
     session_id = clt.get_session_id()  # Obtém o session_id do cookie
-    login_message = request.get_cookie('login_message')
+    message = request.get_cookie('message')
 
     current_user = None
     if session_id and clt.is_valid_session(session_id):
@@ -38,7 +38,7 @@ def action_pagina(username=None):
             return clt.render('login', error=error)
 
     # Renderiza a página com base na presença de username e current_user
-    return clt.render('pagina', username=username, current_user=current_user, login_message=login_message)
+    return clt.render('pagina', username=username, current_user=current_user, message=message)
 
 @app.route('/login', method='GET')
 def login():
@@ -57,7 +57,7 @@ def action_login():
     if session_id:
         response.set_cookie('session_id', session_id, httponly=True, secure=True, max_age=3600)
         
-        response.set_cookie('login_message', 'Login realizado com sucesso!', max_age=5)
+        response.set_cookie('message', 'Login realizado com sucesso!', max_age=5)
         redirect(f'/{username}')
     else:
         print("ERRO" * 5)
@@ -74,19 +74,22 @@ def action_cadastro():
     password = request.forms.get('password')
     
     cadastro = clt.verify(username, password)
-    
-    if not cadastro:
+
+    if cadastro == 1:
         success = 'Cadastro realizado com sucesso!'
         return clt.render('login', success=success)
-    else: 
+    elif cadastro == 2: 
         error = 'Já existe uma conta com as informações cadastradas'
         return clt.render('cadastro', error=error)
-
+    elif cadastro == 3:
+        error = 'Você precisa preencher todos os campos'
+        return clt.render('cadastro', error=error)
 
 @app.route('/logout', method='POST')
 def logout():
     clt.logout_user()
     response.delete_cookie('session_id')
+    response.set_cookie('message', 'Logout realizado com sucesso!', max_age=5)
     redirect('/')
 
 @app.route('/oficina', method=['POST'])

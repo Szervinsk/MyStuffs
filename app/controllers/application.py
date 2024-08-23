@@ -53,12 +53,18 @@ class Application:
             self._model.logout(session_id)
 
     def verify(self, username, password):
-        if self._model.compareUsers(username): 
-            print('Já existe um usuário')
-            return True
-        else:
-            self._model.book(username, password)
-            return False
+        
+        if username == '' or password == '':
+            print('Não foram preenchidos os campos')
+            return 3 
+        else: 
+            if self._model.compareUsers(username): 
+                print('Já existe um usuário')
+                return 2
+            else:
+                self._model.book(username, password)
+                print('Criando usuário')
+                return 1
 
 
 # def das páginas de login e cadastro
@@ -69,13 +75,13 @@ class Application:
         return template('app/views/html/cadastro', error=error)
 
 # def das páginas 
-    def pagina(self, username=None, current_user=None, login_message=None):
+    def pagina(self, username=None, current_user=None, message=None):
         if username and self.is_authenticated(username):
             session_id = self.get_session_id()
             current_user = self._model.getCurrentUser(session_id)
-            return template('app/views/html/pagina', username=username, current_user=current_user, login_message=login_message)
+            return template('app/views/html/pagina', username=username, current_user=current_user, message=message)
         else: 
-            return template('app/views/html/pagina', username=None, current_user=current_user, login_message=login_message)
+            return template('app/views/html/pagina', username=None, current_user=current_user, message=message)
 
     def oficina(self, username):
         if self.is_authenticated(username):

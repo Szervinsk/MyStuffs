@@ -9,8 +9,8 @@
 </head>
 <body>
     
-    % if login_message:
-        <div id="msg" class="message">{{login_message}}</div>
+    % if message:
+        <div id="msg" class="message">{{message}}</div>
     % end
 
     <nav>

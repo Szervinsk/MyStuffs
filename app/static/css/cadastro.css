@@ -3,7 +3,9 @@
 * {
     --azule: #11214B;
     --azulao: #0085FF;
-
+    --vermeio: #ff2c2c;
+    --cinzinha: #D9D9D9;
+    --verdin: #00e45f;
 }
 
 html,
@@ -76,23 +78,6 @@ section {
     z-index: 10;
 }
 
-#box {
-    display: block;
-    width: 30em;
-    height: 40em;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    border-radius: 15px;
-    background: #f5f5f5;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-
-    animation: JumpIn 0.3s ease;
-}
-
 @keyframes JumpIn {
 
     0% {
@@ -116,12 +101,75 @@ section {
     left: 10px;
 }
 
-form {
-    width: 20em; 
+#form_scroll {
+    width: 100%;
+    max-width: 30em; 
+    display: flex; 
+    flex-direction: row;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    align-items: center;
+    justify-content: space-between; 
+}
+
+#form-1, #form-2, #form-3{
+    width: 26em;
+    padding: 1em 0;
     display: flex; 
     flex-direction: column;
     align-items: center;
+    flex: 0 0 auto; 
+    margin: 0 2em;
 }
+
+#box {
+    display: block;
+    max-width: 30em;
+    width: fit-content;
+    height: 40em;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 15px;
+    background: #f5f5f5;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+    animation: JumpIn 0.3s ease;
+}
+
+#div_balls {
+    text-align: center;
+    margin-top: 1em;
+}
+
+#balls {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+}
+
+#balls li {
+    display: inline-block;
+}
+
+#balls input[type="radio"] {
+    appearance: none;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    background: var(--cinzinha);
+    cursor: pointer;
+}
+
+#balls input[type="radio"]:checked {
+    background: var(--azulao);
+}
+
 
 label {
     align-self: flex-start;
@@ -144,9 +192,13 @@ label {
     padding: 0.5em;
     font-size: 1em;
     flex-shrink: 0;
-    background: #D9D9D9;
+    background: var(--cinzinha);
     animation: In 1s ease;
+    transition: all 0.3s ease;
     transform-origin: left;
+}
+.input:focus {
+    outline-color: var(--azulao);
 }
 
 @keyframes In {
@@ -181,13 +233,13 @@ main {
     left: 10vw;
 }
 
-#btn {
-    width: 100%;
+.btn {
+    width: 80%;
     height: fit-content;
     padding: 0.5em 1em;
     font-size: 1.2em;
     text-decoration: none;
-    color: white;
+    color: whitesmoke;
     border-radius: 10px;
     border: 2px solid var(--azulao);
     background: var(--azulao);
@@ -195,8 +247,14 @@ main {
     text-align: center;
     position: relative;
     transition: all 0.3s ease-in-out;
-
+    cursor: pointer;
     animation: InBtn 0.4s ease;
+}
+.btn:hover {
+    transform: scale(1.025);
+}
+.btn:active {
+    transform: scale(0.90);
 }
 
 @keyframes InBtn {
@@ -220,7 +278,7 @@ main {
     cursor: pointer;
     background-color: #000000de;
     border-radius: 5px;
-    color: white;
+    color: whitesmoke;
     padding: 0.5em 1em;
 
     position: absolute;
