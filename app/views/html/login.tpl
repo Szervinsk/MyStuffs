@@ -35,7 +35,7 @@
                 % end
                 
                 <br>
-                <a style="text-align:center; color:cornflowerblue; font-size: 0.75em;" href="/cadastro">Ainda nn possui cadastro?</a>
+                <a style="text-align:center; color:cornflowerblue; font-size: 0.75em;" href="/cadastro">Ainda não possui cadastro?</a>
             </form>
         </div>
     </section>
