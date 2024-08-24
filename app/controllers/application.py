@@ -87,7 +87,7 @@ class Application:
         if self.is_authenticated(username):
             session_id = self.get_session_id()
             user = self._model.getCurrentUser(session_id)
-            return template('app/views/html/perfil', current_user=user)
+            return template('app/views/html/oficina', current_user=user)
         else:
             print('usuario nao autenticado, redirecionando para login')
             error = 'Você precisa estar logado para acessar a página de oficina.'
