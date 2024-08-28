@@ -53,24 +53,105 @@
     </div>
 
         <main>
-            <div id="div_perfil">
-                    
-                <article>
-                    <div><img src="../../static/img/studying.jpg" alt="user_photo"></div>
-                    <div id="text_content">
-                        <h1> Seja bem vindo </h1>
-                        <h1 id="username"> {{current_user.username}} </h1>
-                    </div>
-                </article>
-                
-                <form action="/logout" method="post">
-                    <button id="logout" type="submit"> Sair <i class="bi bi-box-arrow-left"></i></button>
-                </form>
+            <div id="navbar_perfil">
+
+                <div id="text_content">
+                    <h1> Olá </h1>
+                    <h1 id="username"> {{current_user.username}} </h1>
+                </div>
+
+                <hr>
+
+                <ul>
+                    <li onclick="openEdit()"><i class="bi bi-person-fill"></i> Editar perfil</li>
+                    <li onclick="openPass()"><i class="bi bi-shield-shaded"></i> Alterar Senha</li>
+                    <li><i class="bi bi-tools"></i> Outras ferramentas</li>
+                </ul>
             </div>
+
+            <header>
+
+                <div id="profile">
+                    <div id="edit_perfil">
+                        <div id="div_namepage">
+                            <h1 class="namepage"> Editar perfil </h1>
+                            <form action="/logout" method="post">
+                                <button id="logout" type="submit"> Sair <i class="bi bi-box-arrow-left"></i></button>
+                            </form>
+                        </div>
+        
+                        <h2 class="tagPerfil">Avatar</h2>
+                        <div id="div_perfil">
+                            <article>
+                                <div><img src="../../static/img/studying.jpg" alt="user_photo"></div>
+        
+                                <h2> Faça o upload de uma foto
+                                    <br>
+                                Aceitamos: jpg, png e jpeg
+                                </h2>
+                            </article>
+            
+                        </div>
+            
+                        <hr>
+            
+                        <section>
+            
+                            <div class="alterar_dados">
+                                <form action="">
+                                    <label for="username"> Deseja alterar seu nome? </label>
+                                    <input type="text" name="username" id="username" class="input">
+                
+                                    <label for="bio"> Bio</label>
+                                    <textarea name="bio" rows="7.5em" id="bio" class="input"></textarea>
+        
+                                    <button id="btn" type="submit"> Salvar alterações </button>
+                                </form>
+                            </div>
+            
+                        </section>
+                    </div>
+                </div>
+            
+                <div id="password">
+                    <section>
+                        <div id="edit_password">
+
+                            <div id="div_namepage">
+                                <h1 class="namepage"> Alterar senha </h1>
+                                <form action="/logout" method="post">
+                                <button id="logout" type="submit"> Sair <i class="bi bi-box-arrow-left"></i></button>
+                                </form>
+                            </div>
+        
+                            <div class="alterar_dados">
+                                <form action="">
+                                    <label for="username"> Insira sua senha antiga </label>
+                                    <input type="text" name="username" id="username" class="input">
+        
+                                    <label for="username"> Insira sua senha nova</label>
+                                    <input type="text" name="username" id="username" class="input">
+        
+                                    <label for="username"> Confirme sua senha </label>
+                                    <input type="text" name="username" id="username" class="input">
+                
+        
+                                    <button id="btn" type="submit"> Alterar senha </button>
+                                </form>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </header>
+
+
+
         </main>
 
-    <!-- Scripts do Bootstrap -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
-</body>
-</html>
+        <!-- Scripts do Bootstrap -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+        <script src="../../static/js/perfil.js"></script>
+    </body>
+    </html>
+    

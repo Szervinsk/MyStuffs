@@ -50,7 +50,7 @@ body {
     top: 50%;
     transform: translateY(-50%); 
     border-radius: 10px;
-    margin-right: 2em;
+    margin-right: 1em;
 
     padding: 1em;
     width: 2.25em;
@@ -113,26 +113,89 @@ li a:hover{
     padding-left: 0.5em;
 }
 
+#div_namepage {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 1em;
+}
+
+.namepage {
+    color: var(--cinzao);
+    font-size: 2em;
+}
+
+main {
+    background-color: whitesmoke;
+    padding: 1em;
+    width: 100%;
+    height: 90vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    margin: 2em;
+    border-radius: 15px;  
+    z-index: 2;
+}
+
+#navbar_perfil {
+    width: 20%;
+    height: 100%;
+    padding: 1em;
+    align-items: center;
+    border-right: 2px solid var(--cinzpost);
+}
+
+#edit_perfil , #edit_password {
+    width: 100%;
+    padding: 1em;
+}
+
+#navbar_perfil li {
+    font-size: 1.2em;
+    color: var(--cinzao);
+    align-items: center;
+    margin-bottom: 0.5em;
+    transition: all 0.15s ease;
+    padding: 0;
+}
+
+#navbar_perfil li:hover{
+    color: var(--azulao);
+    cursor: pointer;
+}
+
 #div_perfil {
     display: flex;
     flex-direction: row;
     color:var(--cinzao);
-    text-decoration: none;
-    width: 95%;
+    width: 50%;
     align-items: center;
     justify-content: space-between;
     padding: 2em;
-    margin: 0 2em;
-    transition: all 0.15s ease;
+    transition: all 0.3s ease;
 }
 
 #div_perfil img {
-    width: 7.5em;
-    height: 7.5em;
+    width: 8em;
+    height: 8em;
     border-radius: 50%;
     margin-right: 2em;
     border: solid 5px var(--azulao);
     cursor: pointer;
+}
+
+#div_perfil:hover {
+    background-color: #1e1e1e54;
+    padding: 2em;
+    border-radius: 15px;
+    filter: brightness(0.5);
+}
+
+#div_perfil h2 {
+    font-size: 1em;
+    color: var(--cinzao);
 }
 
 #logout {
@@ -141,23 +204,18 @@ li a:hover{
     border: none;
     position: relative;
     background-color: transparent;
-    font-size: 1.75em;
+    font-size: 1.5em;
     transition: all 0.3s ease;
 }
 #logout:hover {
-    color: whitesmoke;
-    border-radius: 10px;
-    padding: 5px;
-    background-color: var(--vermeio);
     transform: scale(1.05);
+    cursor: pointer;
 }
 
-main {
-    background-color: whitesmoke;
-    padding: 1em;
-    width: 100%;
-    height: 100vh;
-    overflow-y: auto;
+.tagPerfil {
+    margin: 0;
+    margin-left: 1em;
+    color: var(--cinzao);
 }
 
 article {
@@ -174,5 +232,66 @@ article {
     color: var(--azulao);
 }
 #text_content h1:nth-child(2) {
-    font-size: 3.5em;
+    color: var(--cinzao);
+    font-size: 2em;
+}
+
+section {
+    padding: 1em;
+}
+
+.alterar_dados {
+    display: flex;
+    flex-direction: column;
+    width: 25em;
+}
+
+label {
+    font-size: 1.2em;
+    color: var(--cinzao);
+}
+
+.input {
+    border: none;
+    width: 100%;
+    padding: 0.5em;
+    font-size: 1em;
+    flex-shrink: 0;
+    background: #D9D9D9;
+    animation: In 1s ease;
+    transform-origin: left;
+}
+
+#btn {
+    width: fit-content;
+    height: fit-content;
+    padding: 0.5em 1em;
+    font-size: 1em;
+    text-decoration: none;
+    color: white;
+    border-radius: 10px;
+    border: 2px solid var(--azulao);
+    background: var(--azulao);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+
+    animation: InBtn 0.4s ease;
+}
+
+#btn:hover {
+    transform: scale(1.025);
+    color: var(--azulao);
+    background-color: whitesmoke;
+}
+
+header {
+    width: 100%;
+}
+#profile {
+    display: flex;
+}
+#password {
+    display: none;
 }

@@ -55,7 +55,7 @@ def action_login():
     print(f'sessionId = {session_id}')
 
     if session_id:
-        response.set_cookie('session_id', session_id, httponly=True, secure=True, max_age=3600)
+        response.set_cookie('session_id', session_id, httponly=True, secure=True, max_age=3600000)
         
         response.set_cookie('message', 'Login realizado com sucesso!', max_age=5)
         redirect(f'/{username}')
