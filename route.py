@@ -95,20 +95,25 @@ def logout():
 @app.route('/oficina', method=['POST'])
 @app.route('/oficina/<username>', method=['GET'])
 def action_perfil(username=None):
-    session_id = clt.get_session_id()  # Obtém o session_id do cookie
-    
+    if verification(username):
+        return clt.render('oficina', username=username) # renderiza a página de perfil
+
+@app.route('/perfil/<username>', method='GET')
+def perfil(username=None):
+    if verification(username):
+        return clt.render('perfil', username=username)
+
+def verification(username):
+    session_id = clt.get_session_id()  # Obtém o session_id do cookie    
     current_user = None
     if session_id and clt.is_valid_session(session_id):
         current_user = clt._model.getCurrentUser(session_id)
+        return current_user
     
-    # Se o usuário não estiver autenticado ou o username fornecido não corresponder ao usuário atual
     if not current_user or (username and username != current_user.username):
-        error = 'Você deve estar logado para acessar a página'
+        error = 'Você deve estar logado para acessar essa página'
         return clt.render('login', error=error)
     
-    # Renderiza a página de perfil
-    return clt.render('oficina', username=current_user.username)
-
 
 #-----------------------------------------------------------------------------#
 if __name__ == '__main__':

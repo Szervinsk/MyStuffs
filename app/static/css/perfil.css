@@ -50,7 +50,7 @@ body {
     top: 50%;
     transform: translateY(-50%); 
     border-radius: 10px;
-    margin-right: 1em;
+    margin-right: 2em;
 
     padding: 1em;
     width: 2.25em;
@@ -97,7 +97,7 @@ li a {
     opacity: 0;
 }
 
-li a:hover , #div_perfil:hover{
+li a:hover{
     background-color: rgba(0, 0, 0, 0.233);
     padding: 5px;
     border-radius: 5px;
@@ -113,57 +113,66 @@ li a:hover , #div_perfil:hover{
     padding-left: 0.5em;
 }
 
-a #div_perfil {
+#div_perfil {
     display: flex;
     flex-direction: row;
     color:var(--cinzao);
     text-decoration: none;
-    width: fit-content;
-    margin: 0 auto;
+    width: 95%;
     align-items: center;
-    justify-content: center;
-    padding: 0;
-    position: absolute;
-    bottom: 1em;
+    justify-content: space-between;
+    padding: 2em;
+    margin: 0 2em;
     transition: all 0.15s ease;
-    cursor: pointer;
 }
 
 #div_perfil img {
-    width: 2em;
-    height: 2em;
+    width: 7.5em;
+    height: 7.5em;
     border-radius: 50%;
-    border: solid 2px var(--azulao);
-    align-items: center;
+    margin-right: 2em;
+    border: solid 5px var(--azulao);
+    cursor: pointer;
 }
 
 #logout {
-    opacity: 0;
+    opacity: 1;
     color: var(--vermeio);
     border: none;
-    margin-left: 2em;
+    position: relative;
     background-color: transparent;
-    font-size: 1.5em;
-    transition: all 0.1s ease;
+    font-size: 1.75em;
+    transition: all 0.3s ease;
 }
-#logout:active {
-    transform: scale(0.95);
-}
-
-section {
-    background-color: var(--cinzpost);
-    padding: 1em;
-    margin: 0;
-    min-width: 18em;
-    height: 100vh;
-    overflow-y: auto;
-    z-index: 2;
+#logout:hover {
+    color: whitesmoke;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: var(--vermeio);
+    transform: scale(1.05);
 }
 
-article {
+main {
     background-color: whitesmoke;
     padding: 1em;
     width: 100%;
     height: 100vh;
     overflow-y: auto;
+}
+
+article {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#text_content h1 {
+    flex-direction: column;
+    margin: 0;
+}
+#text_content h1:first-child {
+    color: var(--azulao);
+}
+#text_content h1:nth-child(2) {
+    font-size: 3.5em;
 }
