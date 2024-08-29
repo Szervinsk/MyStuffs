@@ -99,11 +99,67 @@ def action_oficina(username=None):
 @app.route('/perfil/<username>', method='GET')
 def perfil(username=None):
     message = request.get_cookie('message')
+    response.delete_cookie('message')  # Remove o cookie após usá-lo
 
     if clt.is_authenticated(username):
-        return clt.render('perfil', username=username, message=message)
+        perfil = db.get_perfil(username)
+        if perfil:
+            return clt.render('perfil', 
+                username=username, 
+                message=message, 
+                nome_pessoal=perfil[0], 
+                email=perfil[1], 
+                location=perfil[2], 
+                bio=perfil[3]
+            )
+        else:
+            return 'Erro ao carregar o perfil'
     else:
         return clt.render('login', error='Você deve estar logado para acessar esta página.')
+
+@app.route('/editperfil', method=["GET", "POST"])
+def editar_perfil():
+    sessionId = clt.get_session_id()
+    username = db.get_user_by_session(sessionId)
+
+    if request.method == "POST":
+        nome = request.forms.get('nome')
+        email = request.forms.get('email')
+        location = request.forms.get('location')
+        bio = request.forms.get('bio')
+
+        if db.update_perfil(username, nome, email, location, bio):
+            response.set_cookie('message', 'Perfil atualizado com sucesso!', max_age=5)
+            redirect(f'/perfil/{username}')
+        else:
+            return "Erro ao atualizar o perfil."
+
+    else:
+        perfil = db.get_perfil(username)
+        if perfil:
+            return clt.render('perfil', 
+                message=None,
+                username=username, 
+                nome_pessoal=perfil[0], 
+                email=perfil[1], 
+                location=perfil[2], 
+                bio=perfil[3]
+            )
+        else:
+            return 'Erro ao carregar o perfil'
+
+@app.route('/deleteUser', method='POST')
+def delete_account():
+    session_id = clt.get_session_id()
+    username = db.get_user_by_session(session_id)
+
+    if username:
+        db.delete_user(username,session_id) 
+        response.delete_cookie('session_id')
+        redirect('/')
+    else:
+        return "Usuário não encontrado ou sessão inválida."
+
 
 #-----------------------------------------------------------------------------#
 if __name__ == '__main__':

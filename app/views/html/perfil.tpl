@@ -67,103 +67,96 @@
 
                 <hr>
 
-                <ul>
-                    <li onclick="openEdit()"><i class="bi bi-person-fill"></i> Editar perfil</li>
-                    <li onclick="openPass()"><i class="bi bi-shield-shaded"></i> Alterar Senha</li>
-                    <li><i class="bi bi-tools"></i> Outras ferramentas</li>
-                </ul>
-            </div>
+                <div id="div_space">
+                    <ul>
+                        <li onclick="switchSection('profile', 'Editar perfil')"><i class="bi bi-person-fill"></i> Editar perfil</li>
+                        <li onclick="switchSection('password', 'Alterar senha')"><i class="bi bi-shield-shaded"></i> Alterar Senha</li>
+                        <li onclick="switchSection('tools', 'Outras ferramentas')"><i class="bi bi-tools"></i> Outras ferramentas</li>
+                    </ul>
+    
+                    <form action="/deleteUser" method="post">
+                        <button id="delete" type="submit"> Deletar conta <i class="bi bi-person-dash"></i></button>
+                    </form>
+                </div>
 
-            <header>
-
+                </div>
+                
+                <header>
                     <div id="div_namepage">
                         <h1 class="namepage"> Editar perfil </h1>
                         <form action="/logout" method="post">
                             <button id="logout" type="submit"> Sair <i class="bi bi-box-arrow-left"></i></button>
                         </form>
                     </div>
-
-                <div id="profile">
-                    <div id="edit_perfil">
-        
-                        <h2 class="tagPerfil">Avatar</h2>
-                        <div id="div_perfil">
-                            <article>
-                                <div><img src="../../static/img/studying.jpg" alt="user_photo"></div>
-        
-                                <h2> Faça o upload de uma foto
-                                    <br>
-                                Aceitamos: jpg, png e jpeg
-                                </h2>
-                            </article>
-            
-                        </div>
-            
-                        <hr>
-            
-                        <section>
-            
-                            <div class="alterar_dados">
-                                <form action="">
-                                    <div class="deladin">
-                                        <div class="depe">
-                                            <label for="username"> Nome pessoal </label>
-                                            <input type="text" name="username" id="username" class="input">
-                                        </div>
-
-                                        <div class="depe">
-                                            <label for="email"> E-mail </label>
-                                            <input type="email" name="email" id="email" class="input" placeholder="">
-                                        </div>
-                                    </div>
-
-                                    <div class="depe">
-                                        <label for="location"> Localização </label>
-                                        <input type="text" name="location" id="location" class="input">
-                                    </div>
-
-                                    <div class="depe">
-                                        <label for="bio"> Descrição</label>
-                                        <textarea name="bio" rows="7.5em" id="bio" class="input"></textarea>
-                                    </div>
-        
-                                    <button class="btn" type="submit"> Salvar alterações </button>
-                                </form>
+                
+                    <div id="profile">
+                        <div id="edit_perfil">
+                            <h2 class="tagPerfil">Avatar</h2>
+                            <div id="div_perfil">
+                                <article>
+                                    <div><img src="../../static/img/studying.jpg" alt="user_photo"></div>
+                                    <h2> Faça o upload de uma foto<br>Aceitamos: jpg, png e jpeg</h2>
+                                </article>
                             </div>
-            
+                            <hr>
+                            <section>
+                                <div class="alterar_dados">
+                                    <form action="/editperfil" method="post">
+                                        <div class="deladin">
+                                            <div class="depe">
+                                                <label for="nome">Nome pessoal</label>
+                                                <input type="text" name="nome" id="nome" class="input" value="{{nome_pessoal}}">
+                                            </div>
+                                            <div class="depe">
+                                                <label for="email">E-mail</label>
+                                                <input type="email" name="email" id="email" class="input" value="{{email}}">
+                                            </div>
+                                        </div>
+                                        <div class="depe">
+                                            <label for="location">Localização</label>
+                                            <input type="text" name="location" id="location" class="input" value="{{location}}">
+                                        </div>
+                                        <div class="depe">
+                                            <label for="bio">Descrição</label>
+                                            <textarea name="bio" rows="7.5em" id="bio" class="input">{{bio}}</textarea>
+                                        </div>
+                                        <button class="btn" type="submit">Salvar alterações</button>
+                                    </form>
+                                    
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                
+                    <div id="password" style="display: none;">
+                        <section>
+                            <div id="edit_password">
+                                <div class="alterar_dados">
+                                    <form action="/alterarSenha" method="post">
+                                        <div class="depe">
+                                            <label for="oldpassword"> Insira sua senha antiga </label>
+                                            <input type="password" name="oldpassword" id="oldpassword" class="input">
+                                            <label for="newpassword"> Insira sua senha nova </label>
+                                            <input type="password" name="newpassword" id="newpassword" class="input">
+                                            <label for="confirm"> Confirme sua senha </label>
+                                            <input type="password" name="confirm" id="confirm" class="input">
+                                            <span id="spanAlert"></span>
+                                        </div>
+                                        <button class="btn" id="alterar" type="submit" disabled="true"> Alterar senha </button>
+                                    </form>
+                                </div>
+                            </div>
                         </section>
                     </div>
-                </div>
-            
-                <div id="password">
-                    <section>
-                        <div id="edit_password">
-
-                            <div class="alterar_dados">
-                                <form action="/alterarSenha" method="post">
-                                    
-                                    <div class="depe">
-                                        <label for="oldpassword"> Insira sua senha antiga </label>
-                                        <input type="password" name="oldpassword" id="oldpassword" class="input">
-            
-                                        <label for="newpassword"> Insira sua senha nova </label>
-                                        <input type="password" name="newpassword" id="newpassword" class="input">
-            
-                                        <label for="confirm"> Confirme sua senha </label>
-                                        <input type="password" name="confirm" id="confirm" class="input">
-                                        <span id="spanAlert"></span>
-                                    </div>
-
-                                    <button class="btn" id='alterar' type="submit" disabled="true"> Alterar senha </button>
-                                </form>
+                
+                    <div id="tools" style="display: none;">
+                        <section>
+                            <div id="ferramentas">
+                                ferramentas
                             </div>
-                        </div>
-                    </section>
-                </div>
-            </header>
-
-
-
+                        </section>
+                    </div>
+                </header>
         </main>
 
         <!-- Scripts do Bootstrap -->

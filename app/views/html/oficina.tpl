@@ -70,7 +70,7 @@
         </section>
 
         <article>
-            aqui vai ler os post it 
+            sla
         </article>
 
     <!-- Scripts do Bootstrap -->

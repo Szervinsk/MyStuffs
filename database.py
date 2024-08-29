@@ -33,16 +33,38 @@ class DatabaseManager:
                 username TEXT NOT NULL,
                 FOREIGN KEY(username) REFERENCES users(username))''')
         
+        self.cursor.execute('''
+            CREATE TABLE IF NOT EXISTS perfil (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                username TEXT UNIQUE NOT NULL,
+                foto BLOB,
+                nome_pessoal TEXT DEFAULT '', 
+                email TEXT DEFAULT '', 
+                location TEXT DEFAULT '',
+                bio VARCHAR(200) DEFAULT '',
+                FOREIGN KEY(username) REFERENCES users(username)
+    )''')
+
+
         self.conn.commit()
 
     def add_user(self, username, password):
         self.connect()
         try:
             self.cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
+            self.cursor.execute('INSERT INTO perfil (username) VALUES (?)', (username,))
+            
             self.conn.commit()
             return True
         except sqlite3.IntegrityError:
             return False
+        except sqlite3.Error as e:
+            print(f"Erro ao adicionar usuário: {e}")
+            self.conn.rollback()  # Reverte a transação em caso de erro
+            return False
+        finally:
+            self.close()  # Certifique-se de fechar a conexão após a operação
+
 
     def get_user(self, username):
         self.connect()
@@ -68,6 +90,30 @@ class DatabaseManager:
     def is_valid_session(self, session_id):
         return self.get_user_by_session(session_id) is not None
 
+    def update_perfil(self, username, nome, email, location, bio):
+        self.connect()
+        try:
+            self.cursor.execute('''
+                UPDATE perfil 
+                SET nome_pessoal = ?, email = ?, location = ?, bio = ?
+                WHERE username = ?
+            ''', (nome, email, location, bio, username))
+            self.conn.commit()
+            return True
+        except sqlite3.IntegrityError:
+            return False
+        except Exception as e:
+            print(f"Erro ao atualizar perfil: {e}")
+            return False
+
+    def get_perfil(self, username):
+        self.connect()
+        self.cursor.execute('SELECT nome_pessoal, email, location, bio FROM perfil WHERE username = ?', (username,))
+        perfil = self.cursor.fetchone()
+        print(perfil)
+        return perfil
+
+
     def logout(self, session_id):
         self.connect()
         try:
@@ -75,4 +121,20 @@ class DatabaseManager:
             self.conn.commit()
         finally:
             self.close()  # Certifique-se de fechar a conexão após a operação
+
+    def delete_user(self, username, session_id):
+        self.connect()
+        try:
+            self.cursor.execute("DELETE FROM perfil WHERE username = ?", (username,))
+            self.cursor.execute("DELETE FROM users WHERE username = ?", (username,))
+            self.cursor.execute("DELETE FROM sessions WHERE session_id = ?", (session_id,))
+            
+            self.conn.commit()
+        except sqlite3.Error as e:
+            print(f"Erro ao excluir usuário: {e}")
+            self.conn.rollback()  # Reverte a transação em caso de erro
+        finally:
+            self.close()  # Certifique-se de fechar a conexão após a operação
+
+
 

@@ -327,3 +327,26 @@ header {
 #password {
     display: none;
 }
+
+#delete {
+    font-size: 1em;
+    text-decoration: none;
+    color: var(--vermeio);
+    text-align: center;
+    background-color: transparent;
+    border: none;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+}
+#delete:hover {
+    transform: scale(1.025);
+    color: var(--vermeio);
+    text-shadow: -1px 1px 5px var(--vermeio);
+}
+
+#div_space {
+    height: 86.5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}

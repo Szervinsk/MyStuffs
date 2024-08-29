@@ -1,18 +1,9 @@
-function openPass(){
-    page = document.getElementById('password')
-    otherpage = document.getElementById('profile')
-    namepage = document.querySelector('.namepage')
-    page.style.display = 'flex'
-    namepage.textContent = 'Alterar senha'
-    otherpage.style.display = 'none'
-}
-function openEdit(){
-    page = document.getElementById('profile')
-    otherpage = document.getElementById('password')
-    namepage = document.querySelector('.namepage')
-    page.style.display = 'flex'
-    namepage.textContent = 'Editar perfil'
-    otherpage.style.display = 'none'
+function switchSection(sectionId, title) {
+    const sections = ['profile', 'password', 'tools'];
+    sections.forEach(id => {
+        document.getElementById(id).style.display = (id === sectionId) ? 'flex' : 'none';
+    });
+    document.querySelector('.namepage').textContent = title;
 }
 
 document.addEventListener('DOMContentLoaded', function() {

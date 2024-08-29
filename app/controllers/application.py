@@ -52,7 +52,7 @@ class Application:
         user = self._model.get_user_by_session(session_id)
         return template('app/views/html/oficina', current_user=user)
         
-    def perfil(self, username, message=None):
+    def perfil(self, username, message=None, nome_pessoal=None, email=None, location=None, bio=None):
         session_id = self.get_session_id()
         user = self._model.get_user_by_session(session_id)
-        return template('app/views/html/perfil', current_user=user, message=message)
+        return template('app/views/html/perfil', current_user=user, message=message, nome_pessoal=nome_pessoal, email=email, location=location, bio=bio)
