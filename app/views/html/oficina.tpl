@@ -15,7 +15,7 @@
         <nav id="navbar">
             <div id="div_logo">
                 
-                <a href="/{{current_user.username}}">
+                <a href="/{{current_user}}">
                     <img id="logo" src="../../static/img/MyStuffs icon.png" alt="Logo">
                     <img id="loguin" src="../../static/img/Package.png" alt="Loguin">
                 </a>
@@ -24,19 +24,19 @@
             <div id="div_itens">
                 <ul>
                     <li>
-                        <a href="/{{current_user.username}}">
+                        <a href="/{{current_user}}">
                             <i class="bi bi-house-fill"></i>
                             <h2 class="tags"> Home </h2>
                         </a>
                     </li>
                     <li>
-                        <a href="/oficina/{{current_user.username}}">
+                        <a href="/oficina/{{current_user}}">
                             <i class="bi bi-pen-fill"></i>
                             <h2 class="tags"> Oficina </h2>
                         </a>
                     </li>
                     <li>
-                        <a href="/oficina/calendario/{{current_user.username}}">
+                        <a href="/oficina/calendario/{{current_user}}">
                             <i class="bi bi-calendar-event-fill"></i>
                             <h2 class="tags"> Calendario </h2>
                         </a>
@@ -50,11 +50,11 @@
                 </ul>
             </div>
 
-            <a href="/perfil/{{current_user.username}}">
+            <a href="/perfil/{{current_user}}">
                 <div id="div_perfil">
                     
                     <div><img src="../../static/img/studying.jpg" alt=""></div>
-                    <h1 class="tags" id="username"> {{current_user.username}} </h1>
+                    <h1 class="tags" id="username"> {{current_user}} </h1>
                     
                     <form action="/logout" method="post">
                         <button id="logout" type="submit"><i class="bi bi-box-arrow-left"></i></button>

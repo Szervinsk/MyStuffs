@@ -1,9 +1,8 @@
-from app.controllers.datarecord import DataRecord
 from bottle import template, request
-import time
+import uuid
+from database import DatabaseManager
 
 class Application:
-
     def __init__(self):
         self.pages = {
             'pagina': self.pagina,
@@ -12,94 +11,48 @@ class Application:
             'oficina': self.oficina,
             'perfil': self.perfil,
         }
-        self._model = DataRecord()
-        self.current_username = None
-
-    def helper(self):
-        return template('app/views/html/helper')
+        self._model = DatabaseManager()
 
     def render(self, page, **kwargs):
-        content = self.pages.get(page, self.helper)
+        content = self.pages.get(page)
         return content(**kwargs)
 
-# def do sistema de autenticação e cookies
+    def create_session(self, username, password):
+        session_id = str(uuid.uuid4())
+        self._model.add_session(session_id, username)
+        return session_id
 
-    # pegar cookie
     def get_session_id(self):
         return request.get_cookie('session_id')
 
-    # autenticaçao e controle de sessão
     def is_authenticated(self, username):
         session_id = self.get_session_id()
-        current_username = self._model.getUserName(session_id)
+        current_username = self._model.get_user_by_session(session_id)
         return username == current_username
 
-    # autentica o ususario e retorna um session_id
-    def authenticate_user(self, username, password):
-        session_id = self._model.checkUser(username, password)
-        if session_id:
-            self.current_username = self._model.getUserName(session_id)
-            return session_id, username
-        return None, None
-
-    # verifica se a sessão é valida
     def is_valid_session(self, session_id):
-        return session_id in self._model._authenticated_users  # Mudança para um underscore
+        return self._model.is_valid_session(session_id)
 
-    # faz o logout do usuário
     def logout_user(self):
-        self.current_username = None
         session_id = self.get_session_id()
         if session_id:
             self._model.logout(session_id)
 
-    def verify(self, username, password):
-        
-        if username == '' or password == '':
-            print('Não foram preenchidos os campos')
-            return 3 
-        else: 
-            if self._model.compareUsers(username): 
-                print('Já existe um usuário')
-                return 2
-            else:
-                self._model.book(username, password)
-                print('Criando usuário')
-                return 1
-
-
-# def das páginas de login e cadastro
     def login(self, error=None, success=None):
         return template('app/views/html/login', error=error, success=success)
     
     def cadastro(self, error=None):
         return template('app/views/html/cadastro', error=error)
 
-# def das páginas 
     def pagina(self, username=None, current_user=None, message=None):
-        if username and self.is_authenticated(username):
-            session_id = self.get_session_id()
-            current_user = self._model.getCurrentUser(session_id)
-            return template('app/views/html/pagina', username=username, current_user=current_user, message=message)
-        else: 
-            return template('app/views/html/pagina', username=None, current_user=current_user, message=message)
+        return template('app/views/html/pagina', username=username, current_user=current_user, message=message)
 
     def oficina(self, username):
-        if self.is_authenticated(username):
-            session_id = self.get_session_id()
-            user = self._model.getCurrentUser(session_id)
-            return template('app/views/html/oficina', current_user=user)
-        else:
-            print('usuario nao autenticado, redirecionando para login')
-            error = 'Você precisa estar logado para acessar a página de oficina.'
-            return self.render('login', error=error)
+        session_id = self.get_session_id()
+        user = self._model.get_user_by_session(session_id)
+        return template('app/views/html/oficina', current_user=user)
         
-    def perfil(self, username):
-        if self.is_authenticated(username):
-            session_id = self.get_session_id()
-            user = self._model.getCurrentUser(session_id)
-            return template('app/views/html/perfil', current_user=user)
-        else:
-            print('usuario nao autenticado, redirecionando para login')
-            error = 'Você precisa estar logado para acessar a página de oficina.'
-            return self.render('login', error=error)
+    def perfil(self, username, message=None):
+        session_id = self.get_session_id()
+        user = self._model.get_user_by_session(session_id)
+        return template('app/views/html/perfil', current_user=user, message=message)

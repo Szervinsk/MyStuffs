@@ -25,6 +25,26 @@ body {
     overflow: hidden;
 }
 
+.message {
+    z-index: 999;
+    cursor: pointer;
+    background-color: #000000de;
+    border-radius: 5px;
+    color: white;
+    padding: 0.5em 1em;
+
+    position: absolute;
+    top: 0.5em;
+    left: 50%;
+    translate:-50%;
+
+    transition: all 0.3s ease;
+    animation: 0.3s ease-in aparecer ;
+}
+.message:hover {
+    transform: scale(1);
+}
+
 #logo {
     width: 10em;
     height: fit-content;

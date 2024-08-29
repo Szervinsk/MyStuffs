@@ -11,11 +11,15 @@
 </head>
 <body>
     
+    % if message:
+        <div id="msg" class="message">{{message}}</div>
+    % end
+
     <div id="div_nav">
         <nav id="navbar">
             <div id="div_logo">
                 
-                <a href="/{{current_user.username}}">
+                <a href="/{{current_user}}">
                     <img id="logo" src="../../static/img/MyStuffs icon.png" alt="Logo">
                     <img id="loguin" src="../../static/img/Package.png" alt="Loguin">
                 </a>
@@ -24,19 +28,19 @@
             <div id="div_itens">
                 <ul>
                     <li>
-                        <a href="/{{current_user.username}}">
+                        <a href="/{{current_user}}">
                             <i class="bi bi-house-fill"></i>
                             <h2 class="tags"> Home </h2>
                         </a>
                     </li>
                     <li>
-                        <a href="/oficina/{{current_user.username}}">
+                        <a href="/oficina/{{current_user}}">
                             <i class="bi bi-pen-fill"></i>
                             <h2 class="tags"> Oficina </h2>
                         </a>
                     </li>
                     <li>
-                        <a href="/oficina/calendario/{{current_user.username}}">
+                        <a href="/oficina/calendario/{{current_user}}">
                             <i class="bi bi-calendar-event-fill"></i>
                             <h2 class="tags"> Calendario </h2>
                         </a>
@@ -57,7 +61,7 @@
 
                 <div id="text_content">
                     <h1> Olá </h1>
-                    <h1 id="username"> {{current_user.username}} </h1>
+                    <h1 id="username"> {{current_user}} </h1>
                 </div>
 
                 <hr>
@@ -119,23 +123,25 @@
 
                             <div id="div_namepage">
                                 <h1 class="namepage"> Alterar senha </h1>
-                                <form action="/logout" method="post">
+                                <form action="/alterarSenha" method="post">
                                 <button id="logout" type="submit"> Sair <i class="bi bi-box-arrow-left"></i></button>
                                 </form>
                             </div>
         
                             <div class="alterar_dados">
-                                <form action="">
-                                    <label for="username"> Insira sua senha antiga </label>
-                                    <input type="text" name="username" id="username" class="input">
+                                <form action="/alterarSenha" method="post">
+                                    <label for="oldpassword"> Insira sua senha antiga </label>
+                                    <input type="password" name="oldpassword" id="oldpassword" class="input">
         
-                                    <label for="username"> Insira sua senha nova</label>
-                                    <input type="text" name="username" id="username" class="input">
+                                    <label for="newpassword"> Insira sua senha nova </label>
+                                    <input type="password" name="newpassword" id="newpassword" class="input">
         
-                                    <label for="username"> Confirme sua senha </label>
-                                    <input type="text" name="username" id="username" class="input">
+                                    <label for="confirm"> Confirme sua senha </label>
+                                    <input type="password" name="confirm" id="confirm" class="input">
                 
-        
+                                    <br>
+                                    <br>
+
                                     <button id="btn" type="submit"> Alterar senha </button>
                                 </form>
                             </div>
