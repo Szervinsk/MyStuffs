@@ -59,12 +59,6 @@ class DatabaseManager:
         self.cursor.execute("INSERT INTO sessions (session_id, username) VALUES (?, ?)", (session_id, username))
         self.conn.commit()
 
-    #def get_user_by_session(self, session_id):
-       # self.connect()
-       # self.cursor.execute("SELECT username FROM sessions WHERE session_id = ?", (session_id,))
-       # print()
-       # return self.cursor.fetchone()
-
     def get_user_by_session(self, session_id):
         self.connect()
         self.cursor.execute("SELECT username FROM sessions WHERE session_id = ?", (session_id,))

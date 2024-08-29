@@ -9,6 +9,10 @@ db = DatabaseManager()
 # Inicializa as tabelas do banco de dados
 db.create_tables()
 
+@app.route('/static/<filepath:path>')
+def serve_static(filepath):
+    return static_file(filepath, root='./app/static')
+
 @app.route('/', method='GET')
 @app.route('/<username>', method='GET')
 def action_pagina(username=None):
