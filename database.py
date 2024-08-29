@@ -63,7 +63,7 @@ class DatabaseManager:
         self.connect()
         self.cursor.execute("SELECT username FROM sessions WHERE session_id = ?", (session_id,))
         result = self.cursor.fetchone()
-        return result[0] if result else None
+        return result[0] if result else None #result[0] é o username do cara
 
     def is_valid_session(self, session_id):
         return self.get_user_by_session(session_id) is not None

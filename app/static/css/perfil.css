@@ -33,7 +33,7 @@ body {
     color: white;
     padding: 0.5em 1em;
 
-    position: absolute;
+    position: fixed;
     top: 0.5em;
     left: 50%;
     translate:-50%;
@@ -263,7 +263,19 @@ section {
 .alterar_dados {
     display: flex;
     flex-direction: column;
-    width: 25em;
+    width: 70%;
+}
+
+.deladin  {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1em;
+}
+.depe  {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1em;
+    margin-right: 2em;
 }
 
 label {
@@ -273,7 +285,7 @@ label {
 
 .input {
     border: none;
-    width: 100%;
+    width: 30em;
     padding: 0.5em;
     font-size: 1em;
     flex-shrink: 0;
@@ -282,7 +294,7 @@ label {
     transform-origin: left;
 }
 
-#btn {
+.btn {
     width: fit-content;
     height: fit-content;
     padding: 0.5em 1em;
@@ -300,10 +312,10 @@ label {
     animation: InBtn 0.4s ease;
 }
 
-#btn:hover {
+.btn:hover {
     transform: scale(1.025);
-    color: var(--azulao);
-    background-color: whitesmoke;
+    /* color: var(--azulao);
+    background-color: whitesmoke; */
 }
 
 header {

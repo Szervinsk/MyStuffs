@@ -10,12 +10,13 @@
 
 </head>
 <body>
-    
-    % if message:
-        <div id="msg" class="message">{{message}}</div>
-    % end
 
     <div id="div_nav">
+
+        % if message:
+            <div id="msg" class="message">{{message}}</div>
+        % end
+
         <nav id="navbar">
             <div id="div_logo">
                 
@@ -75,14 +76,15 @@
 
             <header>
 
+                    <div id="div_namepage">
+                        <h1 class="namepage"> Editar perfil </h1>
+                        <form action="/logout" method="post">
+                            <button id="logout" type="submit"> Sair <i class="bi bi-box-arrow-left"></i></button>
+                        </form>
+                    </div>
+
                 <div id="profile">
                     <div id="edit_perfil">
-                        <div id="div_namepage">
-                            <h1 class="namepage"> Editar perfil </h1>
-                            <form action="/logout" method="post">
-                                <button id="logout" type="submit"> Sair <i class="bi bi-box-arrow-left"></i></button>
-                            </form>
-                        </div>
         
                         <h2 class="tagPerfil">Avatar</h2>
                         <div id="div_perfil">
@@ -103,13 +105,29 @@
             
                             <div class="alterar_dados">
                                 <form action="">
-                                    <label for="username"> Deseja alterar seu nome? </label>
-                                    <input type="text" name="username" id="username" class="input">
-                
-                                    <label for="bio"> Bio</label>
-                                    <textarea name="bio" rows="7.5em" id="bio" class="input"></textarea>
+                                    <div class="deladin">
+                                        <div class="depe">
+                                            <label for="username"> Nome pessoal </label>
+                                            <input type="text" name="username" id="username" class="input">
+                                        </div>
+
+                                        <div class="depe">
+                                            <label for="email"> E-mail </label>
+                                            <input type="email" name="email" id="email" class="input" placeholder="">
+                                        </div>
+                                    </div>
+
+                                    <div class="depe">
+                                        <label for="location"> Localização </label>
+                                        <input type="text" name="location" id="location" class="input">
+                                    </div>
+
+                                    <div class="depe">
+                                        <label for="bio"> Descrição</label>
+                                        <textarea name="bio" rows="7.5em" id="bio" class="input"></textarea>
+                                    </div>
         
-                                    <button id="btn" type="submit"> Salvar alterações </button>
+                                    <button class="btn" type="submit"> Salvar alterações </button>
                                 </form>
                             </div>
             
@@ -121,28 +139,22 @@
                     <section>
                         <div id="edit_password">
 
-                            <div id="div_namepage">
-                                <h1 class="namepage"> Alterar senha </h1>
-                                <form action="/alterarSenha" method="post">
-                                <button id="logout" type="submit"> Sair <i class="bi bi-box-arrow-left"></i></button>
-                                </form>
-                            </div>
-        
                             <div class="alterar_dados">
                                 <form action="/alterarSenha" method="post">
-                                    <label for="oldpassword"> Insira sua senha antiga </label>
-                                    <input type="password" name="oldpassword" id="oldpassword" class="input">
-        
-                                    <label for="newpassword"> Insira sua senha nova </label>
-                                    <input type="password" name="newpassword" id="newpassword" class="input">
-        
-                                    <label for="confirm"> Confirme sua senha </label>
-                                    <input type="password" name="confirm" id="confirm" class="input">
-                
-                                    <br>
-                                    <br>
+                                    
+                                    <div class="depe">
+                                        <label for="oldpassword"> Insira sua senha antiga </label>
+                                        <input type="password" name="oldpassword" id="oldpassword" class="input">
+            
+                                        <label for="newpassword"> Insira sua senha nova </label>
+                                        <input type="password" name="newpassword" id="newpassword" class="input">
+            
+                                        <label for="confirm"> Confirme sua senha </label>
+                                        <input type="password" name="confirm" id="confirm" class="input">
+                                        <span id="spanAlert"></span>
+                                    </div>
 
-                                    <button id="btn" type="submit"> Alterar senha </button>
+                                    <button class="btn" id='alterar' type="submit" disabled="true"> Alterar senha </button>
                                 </form>
                             </div>
                         </div>

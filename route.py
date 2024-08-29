@@ -22,7 +22,7 @@ def action_pagina(username=None):
     current_user = None
     if session_id and clt.is_valid_session(session_id):
         current_user = db.get_user_by_session(session_id)
-        print(f'esse {current_user}')
+        print(f'acessando página de {current_user}')
         if not username:
             username = current_user
 
@@ -98,8 +98,10 @@ def action_oficina(username=None):
 
 @app.route('/perfil/<username>', method='GET')
 def perfil(username=None):
+    message = request.get_cookie('message')
+
     if clt.is_authenticated(username):
-        return clt.render('perfil', username=username)
+        return clt.render('perfil', username=username, message=message)
     else:
         return clt.render('login', error='Você deve estar logado para acessar esta página.')
 
