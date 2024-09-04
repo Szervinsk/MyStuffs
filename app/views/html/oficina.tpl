@@ -34,13 +34,7 @@
                             <i class="bi bi-pen-fill"></i>
                             <h2 class="tags"> Oficina </h2>
                         </a>
-                    </li>
-                    <li>
-                        <a href="/oficina/calendario/{{current_user}}">
-                            <i class="bi bi-calendar-event-fill"></i>
-                            <h2 class="tags"> Calendario </h2>
-                        </a>
-                    </li>
+                    </li>   
                     <li>
                         <a href="/configuracoes">
                             <i class="bi bi-gear-fill"></i>
@@ -66,11 +60,30 @@
     </div>
 
         <section>
-            aqui vao ficar os post
+            <div>
+                <div id="searchbar_div">
+                    <input name="searchbar" class="input" id="searchbar" type="text" placeholder="Pesquisar notas ">
+                    <button class="input_btn"><i class="bi bi-search"></i></button>
+                </div>
+                
+                <div class="deladin" id="add_notas">
+                    <h2> Minhas notas</h2>
+                    <button onclick="addNotes()"> Add + </button>
+                    <script src="../../static/js/oficina.js"></script>
+                </div>
+
+                <div id="blocks">
+                    aqui vão ficar os blocos
+                </div>
+
+            </div>
+            
+
+
         </section>
 
         <article>
-            sla
+            Clique em uma de suas notas pfvzinho
         </article>
 
     <!-- Scripts do Bootstrap -->

@@ -41,12 +41,6 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/oficina/calendario/{{current_user}}">
-                            <i class="bi bi-calendar-event-fill"></i>
-                            <h2 class="tags"> Calendario </h2>
-                        </a>
-                    </li>
-                    <li>
                         <a href="/configuracoes">
                             <i class="bi bi-gear-fill"></i>
                             <h2 class="tags"> Configurações </h2>
@@ -105,21 +99,44 @@
                                         <div class="deladin">
                                             <div class="depe">
                                                 <label for="nome">Nome pessoal</label>
-                                                <input type="text" name="nome" id="nome" class="input" value="{{nome_pessoal}}">
+
+                                                % if nome_pessoal:
+                                                    <input type="text" name="nome" id="nome" class="input" value="{{nome_pessoal}}">
+                                                % else:
+                                                    <input type="text" name="nome" id="nome" class="input">
+                                                % end
+
                                             </div>
                                             <div class="depe">
                                                 <label for="email">E-mail</label>
-                                                <input type="email" name="email" id="email" class="input" value="{{email}}">
+
+                                                % if email:
+                                                    <input type="email" name="email" id="email" class="input" value="{{email}}">
+                                                % else:
+                                                    <input type="email" name="email" id="email" class="input">
+                                                % end
+
                                             </div>
                                         </div>
                                         <div class="depe">
                                             <label for="location">Localização</label>
-                                            <input type="text" name="location" id="location" class="input" value="{{location}}">
+
+                                                % if location:
+                                                    <input type="text" name="location" id="location" class="input" value="{{location}}">
+                                                % else:                                          
+                                                    <input type="text" name="location" id="location" class="input">
+                                                % end
                                         </div>
                                         <div class="depe">
                                             <label for="bio">Descrição</label>
-                                            <textarea name="bio" rows="7.5em" id="bio" class="input">{{bio}}</textarea>
-                                        </div>
+                                            
+                                                % if bio:
+                                                    <textarea name="bio" rows="7.5em" id="bio" class="input">{{bio}}</textarea>
+                                                % else:
+                                                    <textarea name="bio" rows="7.5em" id="bio" class="input"></textarea>
+                                                % end
+
+                                            </div>
                                         <button class="btn" type="submit">Salvar alterações</button>
                                     </form>
                                     
