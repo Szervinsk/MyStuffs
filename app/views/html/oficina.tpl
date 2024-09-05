@@ -11,6 +11,10 @@
 </head>
 <body>
     
+    % if message:
+            <div id="msg" class="message">{{message}}</div>
+        % end
+
     <div id="div_nav">
         <nav id="navbar">
             <div id="div_logo">
@@ -68,27 +72,80 @@
                 
                 <div class="deladin" id="add_notas">
                     <h2> Minhas notas</h2>
-                    <button onclick="addNotes()"> Add + </button>
-                    <script src="../../static/js/oficina.js"></script>
+                    <button onclick="switchSection('add_notes')"> Add + </button>
+                </div>
+                
+                <div>
+                    <ul>
+                        <li>Geral</li>
+                    </a>
+                        <li>Sla</li>
+                    </a>
+                        <li>Sla2</li>
+                    </ul>
                 </div>
 
-                <div id="blocks">
-                    aqui vão ficar os blocos
-                </div>
+                <hr>
 
+                <div id="bloquin">
+                    % for note in notes:
+                        <div class="bloquin" onclick="switchSection('edit_notes')">
+                            <h3>{{note[0]}}</h3>  <!-- title -->
+                            <hr>
+                            <p>{{note[1]}}</p>   <!-- content -->
+                            
+                            <div class="deladin">
+                                <h6> Tag dele </h6>
+                                <h6>{{note[2]}}</h6>  <!-- created_at -->
+                            </div>
+                        </div>
+                    % end
+                </div>
+                
             </div>
             
-
-
+            
+            
         </section>
-
+        
         <article>
-            Clique em uma de suas notas pfvzinho
-        </article>
+            
+            <div id="add_notes">
+                <form action="/add_notes" method="post">
+                    <label for="title"></label>
+                    <input class="inputs" id="title" name="title" type="text" placeholder="Título" autocomplete="off">
+                    
+                    <hr>
 
-    <!-- Scripts do Bootstrap -->
+                    <textarea class="inputs" name="content" id="content" placeholder="Insira aqui o que você quiser" autocomplete="off"></textarea>
+
+                    <button id="submit_btn" type="submit"> Salvar </button>
+                </form>
+            </div>
+
+            <div id="no_notes"> 
+                <img src="../../static/img/Task list.png" alt="notes">
+                <h2>Por favor clique em um dos blocos pfv </h2>
+            </div>
+            
+            <div id="edit_notes">
+                <form action="" method="post">
+                    <label for="title"></label>
+                    <input class="inputs" id="title" name="title" type="text" placeholder="{{note[0]}}" autocomplete="off">
+                    
+                    <hr>
+
+                    <textarea class="inputs" name="content" id="content" placeholder="Insira aqui o que você quiser" autocomplete="off">{{note[1]}}</textarea>
+
+                    <button id="submit_btn" type="submit"> Salvar </button>
+                </form>
+            </div>
+            
+        </article>
+        
+        <!-- Scripts do Bootstrap -->
+    <script src="../../static/js/oficina.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
-    <script src="../../static/js/oficina.js"></script>
 </body>
 </html>

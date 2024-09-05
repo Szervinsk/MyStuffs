@@ -11,6 +11,7 @@ class DatabaseManager:
     def connect(self):
         if not self.conn:
             self.conn = sqlite3.connect(self.db_name)
+            self.conn.text_factory = str
             self.cursor = self.conn.cursor()
 
     def close(self):
@@ -44,7 +45,16 @@ class DatabaseManager:
                 bio VARCHAR(200) DEFAULT '',
                 FOREIGN KEY(username) REFERENCES users(username)
     )''')
-
+        
+        self.cursor.execute('''
+            CREATE TABLE IF NOT EXISTS notes (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                username TEXT NOT NULL,
+                title TEXT DEFAULT '',
+                content VARCHAR(1935),
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY(username) REFERENCES users(username)
+            )''')
 
         self.conn.commit()
 
@@ -65,6 +75,35 @@ class DatabaseManager:
         finally:
             self.close()  # Certifique-se de fechar a conexão após a operação
 
+    def add_note(self, username, title, content):
+        self.connect()
+        print('conectei')
+        try:
+            self.cursor.execute("INSERT INTO notes (username, title, content) VALUES (?,?,?)", (username, title, content))
+            self.conn.commit()
+            print('cheguei aqui')
+            return True
+        except sqlite3.IntegrityError:
+            print('opas')
+            return False
+        except sqlite3.Error as e:
+            print(f"Erro ao adicionar usuário: {e}")
+            self.conn.rollback()  # Reverte a transação em caso de erro
+            return False
+        finally:
+            self.close()
+    
+    def get_notes(self, username):
+        self.connect()
+        try:
+            self.cursor.execute('SELECT title, content, created_at FROM notes WHERE username = ?', (username,))
+            notes = self.cursor.fetchall()  # Retorna todas as notas
+            return notes
+        except sqlite3.Error as e:
+            print(f"Erro ao buscar notas: {e}")
+            return []
+        finally:
+            self.close()
 
     def get_user(self, username):
         self.connect()

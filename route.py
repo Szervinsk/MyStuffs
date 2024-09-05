@@ -91,8 +91,23 @@ def logout():
 
 @app.route('/oficina/<username>', method=['GET'])
 def action_oficina(username=None):
+    message = request.get_cookie('message')
+    response.delete_cookie('message')
+
+    sessionId = clt.get_session_id()
+    username = db.get_user_by_session(sessionId)
+
     if clt.is_authenticated(username):
-        return clt.render('oficina', username=username)
+        notes = db.get_notes(username)
+
+        # return clt.render('oficina', username=username, message=message, notes=notes)
+
+        return clt.render('oficina', 
+                username=username, 
+                message=message, 
+                notes=notes
+            )
+
     else:
         return clt.render('login', error='Você deve estar logado para acessar esta página.')
 
@@ -159,8 +174,24 @@ def delete_account():
         redirect('/')
     else:
         return "Usuário não encontrado ou sessão inválida."
+    
+@app.route('/add_notes', method=['POST'])
+def add_notes():
+    session_id = clt.get_session_id()
+    username = db.get_user_by_session(session_id)
+
+    if request.method == 'POST':
+        title = request.forms.get('title')
+        content = request.forms.get('content')
+        print(title,content)
+        if db.add_note(username,title,content):
+            response.set_cookie('message','Bloco adicionado com sucesso!')
+            redirect(f'/oficina/{username}')
+        else: 
+            response.set_cookie('message','Error 404')
+            redirect(f'/oficina/{username}')
 
 
 #-----------------------------------------------------------------------------#
 if __name__ == '__main__':
-    run(app, host='localhost', port=8080, debug=True)
+    run(app, host='localhost', port=8080, debug=False)

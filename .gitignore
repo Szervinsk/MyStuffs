@@ -1,2 +1,3 @@
 
 *.pyc
+app/controllers/__pycache__/application.cpython-311.pyc
