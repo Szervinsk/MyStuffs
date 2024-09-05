@@ -1,11 +1,19 @@
-function switchSection(sectionId) {
-    console.log('Abrindo do lado')
+function switchSection(sectionId, title, content, createdAt, noteId) {
+    console.log('Abrindo do lado');
 
     const sections = ['add_notes', 'no_notes', 'edit_notes'];
     sections.forEach(id => {
         document.getElementById(id).style.display = (id === sectionId) ? 'flex' : 'none';
     });
+
+    if (sectionId === 'edit_notes') {
+        document.getElementById('title_ed').value = title;
+        document.getElementById('content_ed').value = content;
+        document.getElementById('noteId').value = noteId || ''; // Adicione o ID da nota se existir
+    }
 }
+
+
 
 document.addEventListener('DOMContentLoaded', function() {
     var messageElement = document.getElementById('msg');

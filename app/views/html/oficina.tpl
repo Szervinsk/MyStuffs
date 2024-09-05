@@ -89,7 +89,7 @@
 
                 <div id="bloquin">
                     % for note in notes:
-                        <div class="bloquin" onclick="switchSection('edit_notes')">
+                        <div class="bloquin" onclick="switchSection('edit_notes', '{{note[0]}}', '{{note[1]}}', '{{note[2]}}')">
                             <h3>{{note[0]}}</h3>  <!-- title -->
                             <hr>
                             <p>{{note[1]}}</p>   <!-- content -->
@@ -128,18 +128,25 @@
                 <h2>Por favor clique em um dos blocos pfv </h2>
             </div>
             
-            <div id="edit_notes">
-                <form action="" method="post">
-                    <label for="title"></label>
-                    <input class="inputs" id="title" name="title" type="text" placeholder="{{note[0]}}" autocomplete="off">
+            <div id="edit_notes" style="display:none;">
+                <form id="delete_form" action="/delete_note" method="post">
+                    <input type="hidden" id="noteId" name="note_id">
+                    <button id="deletar_btn" type="submit"> Deletar <i class="bi bi-trash"></i></button>
+                </form>
+            
+                <form id="edit_form" action="/edit_note" method="post">
+                    <input type="hidden" id="noteId" name="note_id"> <!-- Campo oculto para o ID da nota -->
+                    <label for="title_ed"></label>
+                    <input class="inputs" id="title_ed" name="title_ed" type="text" placeholder="Título" autocomplete="off">
                     
                     <hr>
-
-                    <textarea class="inputs" name="content" id="content" placeholder="Insira aqui o que você quiser" autocomplete="off">{{note[1]}}</textarea>
-
-                    <button id="submit_btn" type="submit"> Salvar </button>
+            
+                    <textarea class="inputs" name="content_ed" id="content_ed" placeholder="Insira aqui o que você quiser" autocomplete="off"></textarea>
+            
+                    <button id="submit_btn" type="submit"> Alterar </button>
                 </form>
             </div>
+            
             
         </article>
         

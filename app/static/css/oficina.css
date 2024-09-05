@@ -212,15 +212,16 @@ section {
 #add_notas {
     margin: 1em 0;
     height: 2em;
+    flex-direction: row;
     align-items: center;
     display: flex;
     justify-content: space-between;
 }
 
-#add_notas h2{
+#add_notas h2 , #edit_notas h2{
     font-size: 1rem;
 }
-#add_notas button {
+#add_notas button , #edit_notas button {
     background: none;
     border: none;
     font-size: 1rem;
@@ -240,7 +241,7 @@ section {
     border: none;
     margin-right: 10px;
 }
-.input_btn:hover , #add_notas button:hover {
+.input_btn:hover , #add_notas button:hover , #edit_notas button:hover {
     transition: all 0.3s ease;
     transform: scale(1.05);
 }
@@ -256,7 +257,7 @@ article {
     margin: auto;
 }
 
-#add_notes form, #edit_notes , #no_notes {
+#add_notes form, #edit_notes form:nth-child(2) , #no_notes {
     width: 100%;
     height: 100%;
     display: flex;
@@ -289,11 +290,11 @@ article {
     padding: 0.5em;
 }
 
-#title {
+#title , #title_ed {
     font-size: 3em;
 }
 
-#content {
+#content , #content_ed {
     font-size: 2em;
     height: 69vh;
 }
@@ -375,4 +376,23 @@ article {
     width: 90%;
     bottom: 0em;
     justify-content: space-between;
+}
+
+#deletar_btn {
+    position: absolute;
+    top: 1em;
+    right: 6em;
+    width: fit-content;
+    font-size: 1.2rem;
+    background-color: whitesmoke;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    color: var(--cinzao);
+}
+
+#deletar_btn:hover {
+    transition: all 0.3s ease;
+    background-color: rgb(201, 201, 201)
 }
