@@ -9,7 +9,7 @@ function switchSection(sectionId, title, content, createdAt, noteId) {
     if (sectionId === 'edit_notes') {
         document.getElementById('title_ed').value = title;
         document.getElementById('content_ed').value = content;
-        document.getElementById('noteId').value = noteId || ''; // Adicione o ID da nota se existir
+        document.getElementById('noteId').value = noteId || ''; 
     }
 }
 

@@ -22,6 +22,8 @@ class DatabaseManager:
 
     def create_tables(self):
         self.connect()
+        self.cursor.execute('PRAGMA encoding = "UTF-8";')
+
         self.cursor.execute('''
             CREATE TABLE IF NOT EXISTS users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -52,7 +54,7 @@ class DatabaseManager:
                 username TEXT NOT NULL,
                 title TEXT DEFAULT '',
                 content VARCHAR(1935),
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                created_at TIMESTAMP DEFAULT (DATETIME('now', '-3 hours')),
                 FOREIGN KEY(username) REFERENCES users(username)
             )''')
 
