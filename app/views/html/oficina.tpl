@@ -89,13 +89,13 @@
 
                 <div id="bloquin">
                     % for note in notes:
-                        <div class="bloquin" onclick="switchSection('edit_notes', '{{note[0]}}', '{{note[1]}}', '{{note[2]}}')">
+                        <div class="bloquin" onclick="switchSection('edit_notes', '{{note[0]}}', '{{note[1]}}', '{{note[2]}}', '{{note[3]}}')">
                             <h3>{{note[0]}}</h3>  <!-- title -->
                             <hr>
                             <p>{{note[1]}}</p>   <!-- content -->
                             
                             <div class="deladin">
-                                <h6> Tag dele </h6>
+                                <h6>Tag dele</h6>
                                 <h6>{{note[2]}}</h6>  <!-- created_at -->
                             </div>
                         </div>
@@ -129,13 +129,13 @@
             </div>
             
             <div id="edit_notes" style="display:none;">
-                <form id="delete_form" action="/delete_note" method="post">
-                    <input type="hidden" id="noteId" name="note_id">
+                <form id="delete_form" action="/delete_notes" method="post">
+                    <input type="hidden" id="noteId_del" name="noteId" value=''>
                     <button id="deletar_btn" type="submit"> Deletar <i class="bi bi-trash"></i></button>
                 </form>
             
-                <form id="edit_form" action="/edit_note" method="post">
-                    <input type="hidden" id="noteId" name="note_id"> <!-- Campo oculto para o ID da nota -->
+                <form id="edit_form" action="/edit_notes" method="post">
+                    <input type="hidden" id="noteId_ed" name="noteId" value=''>
                     <label for="title_ed"></label>
                     <input class="inputs" id="title_ed" name="title_ed" type="text" placeholder="Título" autocomplete="off">
                     

@@ -1,5 +1,6 @@
 import sqlite3
 import os
+import uuid
 
 class DatabaseManager:
     def __init__(self, db_name='myapp.db'):
@@ -50,7 +51,7 @@ class DatabaseManager:
         
         self.cursor.execute('''
             CREATE TABLE IF NOT EXISTS notes (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id TEXT PRIMARY KEY,
                 username TEXT NOT NULL,
                 title TEXT DEFAULT '',
                 content VARCHAR(1935),
@@ -80,8 +81,11 @@ class DatabaseManager:
     def add_note(self, username, title, content):
         self.connect()
         print('conectei')
+
+        notaId = str(uuid.uuid4())
+
         try:
-            self.cursor.execute("INSERT INTO notes (username, title, content) VALUES (?,?,?)", (username, title, content))
+            self.cursor.execute("INSERT INTO notes (id, username, title, content) VALUES (?,?,?,?)", (notaId, username, title, content))
             self.conn.commit()
             print('cheguei aqui')
             return True
@@ -98,12 +102,44 @@ class DatabaseManager:
     def get_notes(self, username):
         self.connect()
         try:
-            self.cursor.execute('SELECT title, content, created_at FROM notes WHERE username = ?', (username,))
+            self.cursor.execute('SELECT title, content, created_at, id FROM notes WHERE username = ?', (username,))
             notes = self.cursor.fetchall()  # Retorna todas as notas
             return notes
         except sqlite3.Error as e:
             print(f"Erro ao buscar notas: {e}")
             return []
+        finally:
+            self.close()
+
+    def edit_notes(self, username, id, title, content):
+        self.connect()
+        try:
+            self.cursor.execute("UPDATE notes SET title = ?, content = ? , created_at = DATETIME('now', '-3 hours') WHERE id = ? AND username = ?", (title, content, id, username))
+            self.conn.commit()
+            return True
+        except sqlite3.IntegrityError:
+            print("Nota não encontrada ou não foi alterada!")
+            return False
+        except sqlite3.Error as e:
+            print("Nota não encontrada ou não foi alterada!")
+            self.conn.rollback()  # Reverte a transação em caso de erro
+            return False
+        finally:
+            self.close()
+
+    def delete_notes(self,id, username):
+        self.connect()
+        try:
+            self.cursor.execute('DELETE FROM notes WHERE id = ? AND username = ?', (id, username))
+            self.conn.commit()
+            return True
+        except sqlite3.IntegrityError:
+            print('opas')
+            return False
+        except sqlite3.Error as e:
+            print(f"Erro ao adicionar usuário: {e}")
+            self.conn.rollback()  # Reverte a transação em caso de erro
+            return False
         finally:
             self.close()
 

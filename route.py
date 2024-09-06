@@ -45,7 +45,7 @@ def action_login():
     if user and user[2] == password:  # user[2] é a senha no banco de dados
         session_id = clt.create_session(username, password)
         response.set_cookie('session_id', session_id, httponly=True, secure=True, max_age=3600000)
-        response.set_cookie('message', 'Login realizado com sucesso!', max_age=5)
+        response.set_cookie('message', 'Login realizado com sucesso!', max_age=2)
         redirect(f'/{username}')
     else:
         error = 'Falha ao realizar o login, por favor tente novamente'
@@ -79,14 +79,14 @@ def alterarSenha():
     password = request.forms.get('newpassword')
     db.update_password(username, password)
 
-    response.set_cookie('message', 'Sua senha foi alterada com sucesso!', max_age=5)
+    response.set_cookie('message', 'Sua senha foi alterada com sucesso!', max_age=2)
     redirect(f'/perfil/{username}')
 
 @app.route('/logout', method='POST')
 def logout():
     clt.logout_user()
     response.delete_cookie('session_id')
-    response.set_cookie('message', 'Logout realizado com sucesso!', max_age=5)
+    response.set_cookie('message', 'Logout realizado com sucesso!', max_age=2)
     redirect('/')
 
 @app.route('/oficina/<username>', method=['GET'])
@@ -99,7 +99,6 @@ def action_oficina(username=None):
 
     if clt.is_authenticated(username):
         notes = db.get_notes(username)
-
         # return clt.render('oficina', username=username, message=message, notes=notes)
 
         return clt.render('oficina', 
@@ -110,6 +109,48 @@ def action_oficina(username=None):
 
     else:
         return clt.render('login', error='Você deve estar logado para acessar esta página.')
+    
+@app.route('/add_notes', method=['POST'])
+def add_notes():
+    session_id = clt.get_session_id()
+    username = db.get_user_by_session(session_id)
+
+    if request.method == 'POST':
+        title = request.forms.get('title')
+        content = request.forms.get('content')
+        print(title,content)
+        if db.add_note(username,title,content):
+            response.set_cookie('message','Nota adicionada com sucesso!', max_age=2)
+        else: 
+            response.set_cookie('message','Error 404')
+        redirect(f'/oficina/{username}')
+
+@app.route('/edit_notes', method=['POST'])
+def edit_note():
+    sessionId = clt.get_session_id()
+    username = db.get_user_by_session(sessionId)
+
+    id = request.forms.get('noteId')
+    title = request.forms.get('title_ed')
+    content = request.forms.get('content_ed')
+
+    if db.edit_notes(username, id, title, content):
+        response.set_cookie('message','Informações atualizadas!', max_age=2)
+    else: 
+        response.set_cookie('message','Error 404')
+    redirect(f'/oficina/{username}')
+
+@app.route('/delete_notes', method=['POST'])
+def delete_note():
+    sessionId = clt.get_session_id()
+    username = db.get_user_by_session(sessionId)
+    
+    id = request.forms.get('noteId')
+    if db.delete_notes(id,username):
+        response.set_cookie('message','Nota deletada com sucesso!', max_age=2)
+    else: 
+        response.set_cookie('message','Error 404')
+    redirect(f'/oficina/{username}')
 
 @app.route('/perfil/<username>', method='GET')
 def perfil(username=None):
@@ -132,6 +173,7 @@ def perfil(username=None):
     else:
         return clt.render('login', error='Você deve estar logado para acessar esta página.')
 
+
 @app.route('/editperfil', method=["GET", "POST"])
 def editar_perfil():
     sessionId = clt.get_session_id()
@@ -144,7 +186,7 @@ def editar_perfil():
         bio = request.forms.get('bio')
 
         if db.update_perfil(username, nome, email, location, bio):
-            response.set_cookie('message', 'Perfil atualizado com sucesso!', max_age=5)
+            response.set_cookie('message', 'Perfil atualizado com sucesso!', max_age=2)
             redirect(f'/perfil/{username}')
         else:
             return "Erro ao atualizar o perfil."
@@ -175,21 +217,6 @@ def delete_account():
     else:
         return "Usuário não encontrado ou sessão inválida."
     
-@app.route('/add_notes', method=['POST'])
-def add_notes():
-    session_id = clt.get_session_id()
-    username = db.get_user_by_session(session_id)
-
-    if request.method == 'POST':
-        title = request.forms.get('title')
-        content = request.forms.get('content')
-        print(title,content)
-        if db.add_note(username,title,content):
-            response.set_cookie('message','Bloco adicionado com sucesso!')
-            redirect(f'/oficina/{username}')
-        else: 
-            response.set_cookie('message','Error 404')
-            redirect(f'/oficina/{username}')
 
 
 #-----------------------------------------------------------------------------#
