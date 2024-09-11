@@ -48,10 +48,10 @@ class Application:
         return template('app/views/html/pagina', username=username, current_user=current_user, message=message)
 
     # def oficina(self, username, message=None, title=None, content=None , created_at=None ):
-    def oficina(self, username, message=None, notes=None ):
+    def oficina(self, username, message=None, notes=None, lixos=None):
         session_id = self.get_session_id()
         user = self._model.get_user_by_session(session_id)
-        return template('app/views/html/oficina', current_user=user, message=message, notes=notes)
+        return template('app/views/html/oficina', current_user=user, message=message, notes=notes, lixos=lixos)
         # return template('app/views/html/oficina', current_user=user, message=message, title=title, content=content, created_at=created_at)
         
     def perfil(self, username, message=None, nome_pessoal=None, email=None, location=None, bio=None):

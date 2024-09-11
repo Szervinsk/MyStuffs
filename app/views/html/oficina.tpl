@@ -72,17 +72,36 @@
                 
                 <div class="deladin" id="add_notas">
                     <h2> Minhas notas</h2>
-                    <button onclick="switchSection('add_notes')"> Add + </button>
+                    <button class="buttons" onclick="switchSection('add_notes')"> Add + </button>
                 </div>
                 
                 <div>
-                    <ul>
-                        <li>Geral</li>
-                    </a>
-                        <li>Sla</li>
-                    </a>
-                        <li>Sla2</li>
+                    <ul id="pastas">
+                            <li class="pastas_li" id="geral"><i class="bi bi-folder2"></i></i> Geral</li>
+                            <div id="div_pasta" class="depe">
+                                <div>
+                                    <ul>
+                                    % for note in notes:
+                                        <li class="lis_pastas" onclick="switchSection('edit_notes', '{{note[0]}}', '{{note[1]}}', '{{note[2]}}', '{{note[3]}}')"><i style="font-size: 10px;" class="bi bi-arrow-return-right"></i>  {{note[0]}}</li> 
+                                    % end
+                                    </ul>
+                                </div>
+                            </div>
+                            <li class="pastas_li" id="lixeira"><i class="bi bi-trash3"></i></i> Lixeira</li>
+                            <div id="div_lixeira" class="depe">
+                                <div>
+                                    <ul>
+                                    % for lixo in lixos:
+                                        <li class="lis_pastas" onclick="switchSection('delete_notes', '{{lixo[0]}}', '{{lixo[1]}}', '{{lixo[2]}}', '{{lixo[3]}}')"><i style="font-size: 10px;" class="bi bi-arrow-return-right"></i>  {{lixo[0]}}</li> 
+                                    % end
+                                    </ul>
+                                </div>
+                            </div>
                     </ul>
+                    
+                    <div id="add_pastas">
+                        <button class="buttons"> Criar pasta + </button>
+                    </div>
                 </div>
 
                 <hr>
@@ -90,7 +109,7 @@
                 <div id="bloquin">
                     % for note in notes:
                         <div class="bloquin" onclick="switchSection('edit_notes', '{{note[0]}}', '{{note[1]}}', '{{note[2]}}', '{{note[3]}}')">
-                            <h3>{{note[0]}}</h3>  <!-- title -->
+                            <h3 class="title">{{note[0]}}</h3>  <!-- title -->
                             <hr>
                             <p>{{note[1]}}</p>   <!-- content -->
                             
@@ -103,23 +122,16 @@
                 </div>
                 
             </div>
-            
-            
-            
         </section>
         
         <article>
-            
             <div id="add_notes">
                 <form action="/add_notes" method="post">
                     <label for="title"></label>
                     <input class="inputs" id="title" name="title" type="text" placeholder="Título" autocomplete="off">
-                    
                     <hr>
-
                     <textarea class="inputs" name="content" id="content" placeholder="Insira aqui o que você quiser" autocomplete="off"></textarea>
-
-                    <button id="submit_btn" type="submit"> Salvar </button>
+                    <button class="buttons" id="submit_btn" type="submit"> Salvar </button>
                 </form>
             </div>
 
@@ -129,24 +141,41 @@
             </div>
             
             <div id="edit_notes" style="display:none;">
-                <form id="delete_form" action="/delete_notes" method="post">
+                <form id="delete_form" action="/send2Trash" method="post">
                     <input type="hidden" id="noteId_del" name="noteId" value=''>
                     <button id="deletar_btn" type="submit"> Deletar <i class="bi bi-trash"></i></button>
                 </form>
-            
+
                 <form id="edit_form" action="/edit_notes" method="post">
                     <input type="hidden" id="noteId_ed" name="noteId" value=''>
                     <label for="title_ed"></label>
                     <input class="inputs" id="title_ed" name="title_ed" type="text" placeholder="Título" autocomplete="off">
-                    
                     <hr>
-            
                     <textarea class="inputs" name="content_ed" id="content_ed" placeholder="Insira aqui o que você quiser" autocomplete="off"></textarea>
-            
                     <button id="submit_btn" type="submit"> Alterar </button>
                 </form>
             </div>
             
+            <div id="delete_notes" style="display:none;">
+
+                <div id="btns_del">
+                    <form id="delete_form" action="/delete_note" method="post">
+                        <input type="hidden" id="noteId_delp" name="noteId" value=''>
+                        <button id="delete_btn" type="submit"> Deletar  <i class="bi bi-trash"></i></button>
+                    </form>
+
+                    <form id="restaurar_form" action="/restaurar_note" method="post">
+                        <input type="hidden" id="noteId_res" name="noteId" value=''>
+                        <button id="restart_btn" type="submit"> Restaurar  <i class="bi bi-back"></i></button>
+                    </form>
+                </div>
+            
+                    <input type="hidden" id="noteId_ed" name="noteId" value=''>
+                    <label for="title_del"></label>
+                    <input class="inputs" id="title_del" name="title_del" type="text" readonly="true" placeholder="Título" autocomplete="off">
+                    <hr>
+                    <textarea class="inputs" name="content_del" id="content_del" readonly="true" placeholder="Insira aqui o que você quiser" autocomplete="off"></textarea>
+            </div>
             
         </article>
         

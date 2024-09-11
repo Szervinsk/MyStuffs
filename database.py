@@ -59,6 +59,17 @@ class DatabaseManager:
                 FOREIGN KEY(username) REFERENCES users(username)
             )''')
 
+        self.cursor.execute('''
+        CREATE TABLE IF NOT EXISTS lixeira (
+                id TEXT PRIMARY KEY,
+                username TEXT NOT NULL,
+                title TEXT DEFAULT '',
+                content VARCHAR(1935),
+                created_at TIMESTAMP DEFAULT (DATETIME('now', '-3 hours')),
+                FOREIGN KEY(username) REFERENCES users(username)
+            )''')
+
+
         self.conn.commit()
 
     def add_user(self, username, password):
@@ -127,10 +138,37 @@ class DatabaseManager:
         finally:
             self.close()
 
+
+    def lixeira(self, id, username):
+        print(f'{username}, {id}')
+        
+        self.connect()
+        try:
+            self.cursor.execute('SELECT title, content FROM notes WHERE username = ? AND id = ?', (username, id))
+            change = self.cursor.fetchone()  # Pega apenas uma nota (tupla com title e content)
+
+            if change:  
+                title, content = change  
+
+                self.cursor.execute("INSERT INTO lixeira (id, username, title, content) VALUES (?, ?, ?, ?)", (id, username, title, content))
+                self.cursor.execute('DELETE FROM notes WHERE id = ? AND username = ?', (id, username))
+                self.conn.commit()  # Confirma a transação
+                return True
+            else:
+                print(f"Nota com id {id} não encontrada para o usuário {username}")
+                return False
+
+        except sqlite3.Error as e:
+            print(f"Erro ao mover para lixeira: {e}")
+            self.conn.rollback()  # Reverte a transação em caso de erro
+            return False
+        finally:
+            self.close()
+
     def delete_notes(self,id, username):
         self.connect()
         try:
-            self.cursor.execute('DELETE FROM notes WHERE id = ? AND username = ?', (id, username))
+            self.cursor.execute('DELETE FROM lixeira WHERE id = ? AND username = ?', (id, username))
             self.conn.commit()
             return True
         except sqlite3.IntegrityError:
@@ -143,6 +181,46 @@ class DatabaseManager:
         finally:
             self.close()
 
+    def restaura_note(self, id, username):
+        self.connect()
+        try:
+            self.cursor.execute('SELECT title, content FROM lixeira WHERE username = ? AND id = ?', (username, id))
+            change = self.cursor.fetchone() 
+
+            if change:  # Verificar se a nota foi encontrada
+                title, content = change  # Desempacotar o título e o conteúdo
+                
+                self.cursor.execute("INSERT INTO notes (id, username, title, content) VALUES (?, ?, ?, ?)", (id, username, title, content))
+                self.cursor.execute('DELETE FROM lixeira WHERE id = ? AND username = ?', (id, username))
+                self.conn.commit() 
+                return True
+            else:
+                print(f"Nota com id {id} não encontrada na lixeira para o usuário {username}")
+                return False
+
+        except sqlite3.IntegrityError:
+            print('Erro de integridade ao restaurar a nota')
+            return False
+        except sqlite3.Error as e:
+            print(f"Erro ao restaurar a nota: {e}")
+            self.conn.rollback()  # Reverte a transação em caso de erro
+            return False
+        finally:
+            self.close()
+
+
+    def get_lixeira(self, username):
+        self.connect()
+        try:
+            self.cursor.execute('SELECT title, content, created_at, id FROM lixeira WHERE username = ?', (username,))
+            lixos = self.cursor.fetchall()  # Retorna todas as notas
+            return lixos
+        except sqlite3.Error as e:
+            print(f"Erro ao buscar notas: {e}")
+            return []
+        finally:
+            self.close()
+        
     def get_user(self, username):
         self.connect()
         self.cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
@@ -189,7 +267,6 @@ class DatabaseManager:
         perfil = self.cursor.fetchone()
         print(perfil)
         return perfil
-
 
     def logout(self, session_id):
         self.connect()

@@ -140,6 +140,21 @@ li a:hover , #div_perfil:hover{
     border-radius: 5px;
 }
 
+.pastas_li:hover{
+    color: var(--azulao);
+    cursor:pointer;
+}
+
+.lis_pastas {
+    margin-left: 0.75em;
+    font-size: 1em;
+    cursor:pointer;
+}
+.lis_pastas:hover {
+    background-color: rgba(0, 0, 0, 0.233);
+    border-radius: 5px;
+}
+
 #div_itens {
     display: flex;
     flex-direction: row;
@@ -191,7 +206,8 @@ section {
     background-color: var(--cinzpost);
     padding: 1em;
     margin: 0;
-    min-width: 18em;
+    max-width: 22em;
+    min-width: 22em;
     height: 100vh;
     overflow-y: hidden;
     z-index: 2;
@@ -221,7 +237,7 @@ section {
 #add_notas h2 , #edit_notas h2{
     font-size: 1rem;
 }
-#add_notas button , #edit_notas button {
+.buttons {
     background: none;
     border: none;
     font-size: 1rem;
@@ -241,9 +257,25 @@ section {
     border: none;
     margin-right: 10px;
 }
-.input_btn:hover , #add_notas button:hover , #edit_notas button:hover {
-    transition: all 0.3s ease;
-    transform: scale(1.05);
+.input_btn:hover , .buttons:hover {
+    transition: all 0.1s ease;
+    opacity: 0.5;
+}
+
+#pastas {
+    margin-bottom: 1em;
+}
+#add_pastas {
+    display: flex;
+    justify-content: flex-end;
+}
+
+
+#lixeira {
+    cursor: pointer;
+}
+#div_lixeira , #div_pasta{
+    display: none;
 }
 
 article {
@@ -255,16 +287,31 @@ article {
     height: 90vh;
     overflow-y: auto;
     margin: auto;
+    animation: jumpIn ease-in 0.3s;
 }
 
-#add_notes form, #edit_notes form:nth-child(2) , #no_notes {
+@keyframes jumpIn {
+        0% {
+            opacity: 0;
+            transform: scale(0.95);
+            transform: translateY(-10px);
+        }
+    
+        50% {
+            opacity: 1;
+            transform: scale(1);
+            transform: translateY(5px);
+        }
+}
+
+#add_notes form, #edit_notes form:nth-child(2) , #delete_notes , #no_notes {
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
 }
 
-#add_notes, #edit_notes {
+#add_notes, #edit_notes, #delete_notes {
     display: none;
 }
 
@@ -290,13 +337,34 @@ article {
     padding: 0.5em;
 }
 
-#title , #title_ed {
+#title , #title_ed , #title_del{
     font-size: 3em;
 }
 
-#content , #content_ed {
+#content , #content_ed , #content_del{
     font-size: 2em;
     height: 69vh;
+}
+
+#btns_del {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 15em;
+    padding: 0 1em;
+    position: absolute;
+    top: 1em;
+    right: 6em;
+}
+#btns_del button {
+    width: fit-content;
+    font-size: 1.2rem;
+    background-color: whitesmoke;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    color: var(--cinzao);
 }
 
 #submit_btn {
@@ -392,7 +460,7 @@ article {
     color: var(--cinzao);
 }
 
-#deletar_btn:hover {
+#deletar_btn:hover , #btns_del button:hover {
     transition: all 0.3s ease;
     background-color: rgb(201, 201, 201)
 }

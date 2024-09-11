@@ -99,12 +99,13 @@ def action_oficina(username=None):
 
     if clt.is_authenticated(username):
         notes = db.get_notes(username)
-        # return clt.render('oficina', username=username, message=message, notes=notes)
+        lixos = db.get_lixeira(username)
 
         return clt.render('oficina', 
                 username=username, 
                 message=message, 
-                notes=notes
+                notes=notes,
+                lixos=lixos
             )
 
     else:
@@ -140,7 +141,7 @@ def edit_note():
         response.set_cookie('message','Error 404')
     redirect(f'/oficina/{username}')
 
-@app.route('/delete_notes', method=['POST'])
+@app.route('/delete_note', method=['POST'])
 def delete_note():
     sessionId = clt.get_session_id()
     username = db.get_user_by_session(sessionId)
@@ -148,6 +149,30 @@ def delete_note():
     id = request.forms.get('noteId')
     if db.delete_notes(id,username):
         response.set_cookie('message','Nota deletada com sucesso!', max_age=2)
+    else: 
+        response.set_cookie('message','Error 404')
+    redirect(f'/oficina/{username}')
+
+@app.route('/restaurar_note', method=['POST'])
+def restaurar_note():
+    sessionId = clt.get_session_id()
+    username = db.get_user_by_session(sessionId)
+        
+    id = request.forms.get('noteId')
+    if db.restaura_note(id,username):
+        response.set_cookie('message','Nota resgatada com sucesso!', max_age=2)
+    else: 
+        response.set_cookie('message','Error 404')
+    redirect(f'/oficina/{username}')
+
+@app.route('/send2Trash', method='POST')
+def send_lixeira():
+    sessionId = clt.get_session_id()
+    username = db.get_user_by_session(sessionId)
+    
+    id = request.forms.get('noteId')
+    if db.lixeira(id,username):
+        response.set_cookie('message','Nota enviada para lixeira', max_age=2)
     else: 
         response.set_cookie('message','Error 404')
     redirect(f'/oficina/{username}')
