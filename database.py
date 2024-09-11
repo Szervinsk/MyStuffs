@@ -1,9 +1,11 @@
 import sqlite3
 import os
 import uuid
+import datetime
+import json
 
 class DatabaseManager:
-    def __init__(self, db_name='myapp.db'):
+    def __init__(self, db_name='MyStuffs.db'):
         self.db_name = db_name
         self.conn = None
         self.cursor = None
@@ -12,7 +14,7 @@ class DatabaseManager:
     def connect(self):
         if not self.conn:
             self.conn = sqlite3.connect(self.db_name)
-            self.conn.text_factory = str
+            self.conn.text_factory = str 
             self.cursor = self.conn.cursor()
 
     def close(self):
@@ -23,7 +25,7 @@ class DatabaseManager:
 
     def create_tables(self):
         self.connect()
-        self.cursor.execute('PRAGMA encoding = "UTF-8";')
+        # self.cursor.execute('PRAGMA encoding = "UTF-8";')
 
         self.cursor.execute('''
             CREATE TABLE IF NOT EXISTS users (
@@ -45,7 +47,7 @@ class DatabaseManager:
                 nome_pessoal TEXT DEFAULT '', 
                 email TEXT DEFAULT '', 
                 location TEXT DEFAULT '',
-                bio VARCHAR(200) DEFAULT '',
+                bio TEXT DEFAULT '',
                 FOREIGN KEY(username) REFERENCES users(username)
     )''')
         
@@ -54,8 +56,8 @@ class DatabaseManager:
                 id TEXT PRIMARY KEY,
                 username TEXT NOT NULL,
                 title TEXT DEFAULT '',
-                content VARCHAR(1935),
-                created_at TIMESTAMP DEFAULT (DATETIME('now', '-3 hours')),
+                content TEXT DEFAULT '',
+                created_at TEXT DEFAULT '',
                 FOREIGN KEY(username) REFERENCES users(username)
             )''')
 
@@ -64,8 +66,8 @@ class DatabaseManager:
                 id TEXT PRIMARY KEY,
                 username TEXT NOT NULL,
                 title TEXT DEFAULT '',
-                content VARCHAR(1935),
-                created_at TIMESTAMP DEFAULT (DATETIME('now', '-3 hours')),
+                content TEXT DEFAULT '',
+                created_at TEXT DEFAULT '',
                 FOREIGN KEY(username) REFERENCES users(username)
             )''')
 
@@ -93,10 +95,12 @@ class DatabaseManager:
         self.connect()
         print('conectei')
 
+        data_atual = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
         notaId = str(uuid.uuid4())
 
         try:
-            self.cursor.execute("INSERT INTO notes (id, username, title, content) VALUES (?,?,?,?)", (notaId, username, title, content))
+            self.cursor.execute("INSERT INTO notes (id, username, title, content, created_at) VALUES (?,?,?,?, ?)", (notaId, username, title, content, data_atual))
             self.conn.commit()
             print('cheguei aqui')
             return True
@@ -115,12 +119,38 @@ class DatabaseManager:
         try:
             self.cursor.execute('SELECT title, content, created_at, id FROM notes WHERE username = ?', (username,))
             notes = self.cursor.fetchall()  # Retorna todas as notas
-            return notes
+
+            if notes:  # Verifica se há resultados
+                updated_notes = []  # Lista para armazenar as notas atualizadas
+                for note in notes:
+                    note = list(note)  # Converte a tupla para lista para permitir alterações
+
+                    # Substitui as quebras de linha por <br> no conteúdo
+                    content = note[1].replace('\r\n', '<br>')
+                    note[1] = content  # Atualiza o conteúdo formatado
+
+                    # Formata a data e a hora
+                    data_hora = note[2]
+                    data = data_hora.split(' ')[0]  # Separa a data
+                    hora = data_hora.split(' ')[1]  # Separa a hora
+
+                    # Formata a data no formato dia-mes-ano
+                    inv_data = f"{data[8:10]}-{data[5:7]}-{data[0:4]}"
+                    note[2] = f"{inv_data} {hora}"  # Atualiza a data e hora no formato desejado
+
+                    updated_notes.append(note)  # Adiciona a nota atualizada à lista
+
+                return updated_notes  # Retorna as notas formatadas
+            else:
+                return [] 
+        except sqlite3.IntegrityError:
+            print('opas')
         except sqlite3.Error as e:
-            print(f"Erro ao buscar notas: {e}")
-            return []
+            print(f"Erro ao adicionar usuário: {e}")
+            self.conn.rollback()  # Reverte a transação em caso de erro
         finally:
             self.close()
+
 
     def edit_notes(self, username, id, title, content):
         self.connect()
@@ -214,7 +244,20 @@ class DatabaseManager:
         try:
             self.cursor.execute('SELECT title, content, created_at, id FROM lixeira WHERE username = ?', (username,))
             lixos = self.cursor.fetchall()  # Retorna todas as notas
-            return lixos
+
+            updated_lixos = []  # Lista para armazenar as notas atualizadas
+            if lixos:
+                for lixo in lixos:
+                    lixo = list(lixo)  # Converte a tupla para lista para permitir alterações
+
+                    # Substitui as quebras de linha por <br> no conteúdo
+                    content = lixo[1].replace('\r\n', '<br>')
+                    lixo[1] = content  # Atualiza o conteúdo formatado
+
+                    updated_lixos.append(lixo)  # Adiciona a nota atualizada à lista
+                return updated_lixos
+            else:
+                return []
         except sqlite3.Error as e:
             print(f"Erro ao buscar notas: {e}")
             return []

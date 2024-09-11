@@ -9,13 +9,19 @@ function switchSection(sectionId, title, content, createdAt, noteId) {
     if (sectionId === 'edit_notes') {
         article.style.border = '2.5px solid #0085FF' //azul
         document.getElementById('title_ed').value = title;
-        document.getElementById('content_ed').value = content;
+
+        const formattedContent = content.replace(/<br\s*\/?>/gi, '\n');
+        document.getElementById('content_ed').value = formattedContent;
+
         document.getElementById('noteId_ed').value = noteId;
         document.getElementById('noteId_del').value = noteId;
     } else if (sectionId === 'delete_notes') {
         article.style.border = '2.5px solid #ff2c2c' //red
         document.getElementById('title_del').value = title;
-        document.getElementById('content_del').value = content;
+
+        const formattedContent = content.replace(/<br\s*\/?>/gi, '\n');
+        document.getElementById('content_del').value = formattedContent;
+
         document.getElementById('noteId_delp').value = noteId;
         document.getElementById('noteId_res').value = noteId;
     } else {
@@ -72,13 +78,19 @@ document.addEventListener('DOMContentLoaded', function() {
     pasta.addEventListener('click', (e) => {
         e.preventDefault();
         let div = document.getElementById('div_pasta');
-        
+        let icon = document.getElementById('icon')
+
         // Verificar o estilo atual de display da div
         if (div.style.display === 'flex') {
             div.style.display = 'none';  // Ocultar se estiver visível
+            icon.classList.remove('bi-folder2-open');  // Remover o ícone de "aberto"
+            icon.classList.add('bi-folder2');  // Adicionar o ícone de "fechado"
         } else {
             div.style.display = 'flex';  // Exibir se estiver oculto
+            icon.classList.remove('bi-folder2');  // Remover o ícone de "fechado"
+            icon.classList.add('bi-folder2-open');  // Adicionar o ícone de "aberto"
         }
+        
     });
 
     let lixeira = document.getElementById('lixeira');
@@ -93,3 +105,4 @@ document.addEventListener('DOMContentLoaded', function() {
             div.style.display = 'flex';  // Exibir se estiver oculto
         }
     });
+

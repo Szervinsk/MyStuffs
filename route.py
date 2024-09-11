@@ -241,7 +241,7 @@ def delete_account():
         redirect('/')
     else:
         return "Usuário não encontrado ou sessão inválida."
-    
+
 
 
 #-----------------------------------------------------------------------------#

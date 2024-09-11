@@ -276,8 +276,19 @@ section {
 }
 #div_lixeira , #div_pasta{
     display: none;
+    transition: all 0.3s ease;
+    animation: UpDown 0.1s ease;
 }
 
+@keyframes UpDown {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    } to {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
 article {
     background-color: whitesmoke;
     border-radius: 15px;
@@ -314,6 +325,23 @@ article {
 #add_notes, #edit_notes, #delete_notes {
     display: none;
 }
+
+.deletarzin_btn {
+    background-color: var(--cinzao);
+    border: none;
+    border-radius: 5px;
+    padding: 2px;
+    font-size: 1.25em;
+    font-weight: 200;
+    color: white;
+    opacity: 0;
+}
+#delete_btnzin {
+    position: absolute;
+    right: 1em;
+    top: -1em;
+}
+
 
 #no_notes {
     opacity: 0.5;

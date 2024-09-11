@@ -77,7 +77,7 @@
                 
                 <div>
                     <ul id="pastas">
-                            <li class="pastas_li" id="geral"><i class="bi bi-folder2"></i></i> Geral</li>
+                            <li class="pastas_li" id="geral"><i id="icon" class="bi bi-folder2"></i></i> Geral</li>
                             <div id="div_pasta" class="depe">
                                 <div>
                                     <ul>
@@ -108,10 +108,11 @@
 
                 <div id="bloquin">
                     % for note in notes:
-                        <div class="bloquin" onclick="switchSection('edit_notes', '{{note[0]}}', '{{note[1]}}', '{{note[2]}}', '{{note[3]}}')">
+                    <div class="bloquin" onclick="switchSection('edit_notes', '{{note[0]}}', '{{note[1]}}', '{{note[2]}}', '{{note[3]}}')">
+
                             <h3 class="title">{{note[0]}}</h3>  <!-- title -->
                             <hr>
-                            <p>{{note[1]}}</p>   <!-- content -->
+                            <p>{{!note[1]}}</p>   <!-- content -->
                             
                             <div class="deladin">
                                 <h6>Tag dele</h6>
