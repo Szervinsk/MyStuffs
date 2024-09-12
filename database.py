@@ -337,5 +337,22 @@ class DatabaseManager:
         finally:
             self.close()  # Certifique-se de fechar a conexão após a operação
 
+    def getTables(self):
+
+        self.connect()
+        self.cursor.execute('SELECT * FROM users')
+        users = self.cursor.fetchall()
+        print(users)
+        self.cursor.execute('SELECT * FROM sessions')
+        sessoes = self.cursor.fetchall()
+        self.cursor.execute('SELECT * FROM perfil')
+        perfis = self.cursor.fetchall()
+        self.cursor.execute('SELECT * FROM notes')
+        notes = self.cursor.fetchall()
+        self.cursor.execute('SELECT * FROM lixeira')
+        lixos = self.cursor.fetchall()
+
+        return users, sessoes, perfis, notes, lixos
+    
 
 

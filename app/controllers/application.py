@@ -10,6 +10,7 @@ class Application:
             'cadastro': self.cadastro,
             'oficina': self.oficina,
             'perfil': self.perfil,
+            'admin':self.admin,
         }
         self._model = DatabaseManager()
 
@@ -58,3 +59,7 @@ class Application:
         session_id = self.get_session_id()
         user = self._model.get_user_by_session(session_id)
         return template('app/views/html/perfil', current_user=user, message=message, nome_pessoal=nome_pessoal, email=email, location=location, bio=bio)
+
+    def admin(self, username=None, message=None, users=None, sessoes=None, lixos=None, notes=None, perfis=None):
+        return template('app/views/html/admin', username=username, message=message, users=users, sessoes=sessoes, lixos=lixos, perfis=perfis, notes=notes)
+    

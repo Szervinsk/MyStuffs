@@ -45,8 +45,13 @@ def action_login():
     if user and user[2] == password:  # user[2] é a senha no banco de dados
         session_id = clt.create_session(username, password)
         response.set_cookie('session_id', session_id, httponly=True, secure=True, max_age=3600000)
-        response.set_cookie('message', 'Login realizado com sucesso!', max_age=2)
-        redirect(f'/{username}')
+
+        if user[1] == 'admin':
+            response.set_cookie('message', 'Logado como administrador!', max_age=2)
+            redirect(f'/administracao')
+        else:    
+            response.set_cookie('message', 'Login realizado com sucesso!', max_age=2)
+            redirect(f'/{username}')
     else:
         error = 'Falha ao realizar o login, por favor tente novamente'
         return clt.render('login', error=error)
@@ -243,6 +248,21 @@ def delete_account():
     else:
         return "Usuário não encontrado ou sessão inválida."
 
+@app.route('/administracao', method='GET')
+def adm():
+    session_id = clt.get_session_id()
+    username = db.get_user_by_session(session_id)
+    
+    if username == 'admin':
+
+        message = request.get_cookie('message')
+        response.delete_cookie('message') 
+
+        users,sessoes, perfis, notes, lixos = db.getTables()
+
+        return clt.render('admin', username=username, message=message , users=users, sessoes=sessoes, perfis=perfis, notes=notes, lixos=lixos)
+    else:
+        return clt.render('login', error='Você não tem acesso a essa página')
 
 
 #-----------------------------------------------------------------------------#
