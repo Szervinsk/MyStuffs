@@ -99,9 +99,9 @@
                             </div>
                     </ul>
                     
-                    <div id="add_pastas">
+                    <!-- <div id="add_pastas">
                         <button class="buttons"> Criar pasta + </button>
-                    </div>
+                    </div> -->
                 </div>
 
                 <hr>
@@ -162,6 +162,7 @@
                 <div id="btns_del">
                     <form id="delete_form" action="/delete_note" method="post">
                         <input type="hidden" id="noteId_delp" name="noteId" value=''>
+                        <input type="hidden" id="created_atdp" name="created_atdp" value=''>
                         <button id="delete_btn" type="submit"> Deletar  <i class="bi bi-trash"></i></button>
                     </form>
 

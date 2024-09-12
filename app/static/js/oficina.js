@@ -3,6 +3,9 @@ function switchSection(sectionId, title, content, createdAt, noteId) {
     sections.forEach(id => {
         document.getElementById(id).style.display = (id === sectionId) ? 'flex' : 'none';
     });
+    
+    console.log(sectionId)
+    console.log(title + '\n' + content + '\n' + createdAt + '\n' + noteId)
 
     article = document.querySelector('article')
 
@@ -15,10 +18,10 @@ function switchSection(sectionId, title, content, createdAt, noteId) {
 
         document.getElementById('noteId_ed').value = noteId;
         document.getElementById('noteId_del').value = noteId;
+        
     } else if (sectionId === 'delete_notes') {
         article.style.border = '2.5px solid #ff2c2c' //red
         document.getElementById('title_del').value = title;
-
         const formattedContent = content.replace(/<br\s*\/?>/gi, '\n');
         document.getElementById('content_del').value = formattedContent;
 

@@ -131,12 +131,16 @@ class DatabaseManager:
 
                     # Formata a data e a hora
                     data_hora = note[2]
-                    data = data_hora.split(' ')[0]  # Separa a data
-                    hora = data_hora.split(' ')[1]  # Separa a hora
+                    partes = data_hora.split(' ') #separa aqui
+                    if len(partes) == 2:
+                        data = partes[0]  # Separa a data
+                        hora = partes[1]  # Separa a hora
 
+                        inv_data = f"{data[8:10]}-{data[5:7]}-{data[0:4]}"
+                        note[2] = f"{inv_data} {hora}"  # Atualiza a data e hora no formato desejado
+                    else:
+                        note[2] = data_hora
                     # Formata a data no formato dia-mes-ano
-                    inv_data = f"{data[8:10]}-{data[5:7]}-{data[0:4]}"
-                    note[2] = f"{inv_data} {hora}"  # Atualiza a data e hora no formato desejado
 
                     updated_notes.append(note)  # Adiciona a nota atualizada à lista
 
@@ -174,13 +178,13 @@ class DatabaseManager:
         
         self.connect()
         try:
-            self.cursor.execute('SELECT title, content FROM notes WHERE username = ? AND id = ?', (username, id))
+            self.cursor.execute('SELECT title, content , created_at FROM notes WHERE username = ? AND id = ?', (username, id))
             change = self.cursor.fetchone()  # Pega apenas uma nota (tupla com title e content)
 
             if change:  
-                title, content = change  
+                title, content, created_at = change  
 
-                self.cursor.execute("INSERT INTO lixeira (id, username, title, content) VALUES (?, ?, ?, ?)", (id, username, title, content))
+                self.cursor.execute("INSERT INTO lixeira (id, username, title, content,created_at) VALUES (?, ?, ?, ?, ?)", (id, username, title, content, created_at))
                 self.cursor.execute('DELETE FROM notes WHERE id = ? AND username = ?', (id, username))
                 self.conn.commit()  # Confirma a transação
                 return True
@@ -214,20 +218,20 @@ class DatabaseManager:
     def restaura_note(self, id, username):
         self.connect()
         try:
-            self.cursor.execute('SELECT title, content FROM lixeira WHERE username = ? AND id = ?', (username, id))
+            self.cursor.execute('SELECT title, content, created_at FROM lixeira WHERE username = ? AND id = ?', (username, id))
             change = self.cursor.fetchone() 
 
             if change:  # Verificar se a nota foi encontrada
-                title, content = change  # Desempacotar o título e o conteúdo
-                
-                self.cursor.execute("INSERT INTO notes (id, username, title, content) VALUES (?, ?, ?, ?)", (id, username, title, content))
+                title, content, created_at = change  # Desempacotar o título e o conteúdo
+            
+                self.cursor.execute("INSERT INTO notes (id, username, title, content, created_at) VALUES (?, ?, ?, ?, ?)", (id, username, title, content, created_at))
                 self.cursor.execute('DELETE FROM lixeira WHERE id = ? AND username = ?', (id, username))
                 self.conn.commit() 
                 return True
             else:
                 print(f"Nota com id {id} não encontrada na lixeira para o usuário {username}")
                 return False
-
+            
         except sqlite3.IntegrityError:
             print('Erro de integridade ao restaurar a nota')
             return False
