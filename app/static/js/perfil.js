@@ -42,3 +42,32 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+document.getElementById('delete').addEventListener('click', (e) => {
+    e.preventDefault();
+
+    const fundoblur = document.getElementById('fundoblur');
+    const modal = document.getElementById('modal_deleteUser');
+
+    // Exibe o fundo e o modal
+    fundoblur.style.display = 'block';
+    modal.style.display = 'flex';
+});
+
+document.getElementById('fundoblur').addEventListener('click', () => {
+    const fundoblur = document.getElementById('fundoblur');
+    const modal = document.getElementById('modal_deleteUser');
+
+    // Oculta o fundo e o modal quando o fundo é clicado
+    fundoblur.style.display = 'none';
+    modal.style.display = 'none';
+});
+
+document.getElementById('cancelar').addEventListener('click', () => {
+    const fundoblur = document.getElementById('fundoblur');
+    const modal = document.getElementById('modal_deleteUser');
+
+    // Oculta o fundo e o modal quando o fundo é clicado
+    fundoblur.style.display = 'none';
+    modal.style.display = 'none';
+});
+

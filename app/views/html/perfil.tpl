@@ -68,10 +68,26 @@
                         <li onclick="switchSection('tools', 'Outras ferramentas')"><i class="bi bi-tools"></i> Outras ferramentas</li>
                     </ul>
     
-                    <form action="/deleteUser" method="post">
-                        <button id="delete" type="submit"> Deletar conta <i class="bi bi-person-dash"></i></button>
-                    </form>
+                    <button id="delete"> Deletar conta <i class="bi bi-person-dash"></i> </button>   
                 </div>
+
+                <div id="fundoblur"></div>
+                
+                <div class="spaceModal">
+                    <div id="modal_deleteUser">
+                        <h2> Tem certeza que deseja deletar sua conta?</h2>
+    
+                        <div class="deladin , div_btn">
+                            <button id="cancelar"> Cancelar </button>
+                        <form action="/deleteUser" method="post">
+                            <button type="submit"> Deletar </button>
+                        </form>
+                        </div>
+                    </div>
+                </div>
+
+
+
 
                 </div>
                 

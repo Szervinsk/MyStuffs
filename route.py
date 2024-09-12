@@ -238,6 +238,7 @@ def delete_account():
     if username:
         db.delete_user(username,session_id) 
         response.delete_cookie('session_id')
+        response.set_cookie('message', 'Obrigado por escolher a MyStuffs, sentiremos saudades!', max_age=2)
         redirect('/')
     else:
         return "Usuário não encontrado ou sessão inválida."

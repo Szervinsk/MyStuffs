@@ -238,6 +238,68 @@ main {
     color: var(--cinzao);
 }
 
+.spaceModal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10; /* Mantém o modal na frente */
+}
+
+#modal_deleteUser {
+    background-color: whitesmoke;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    padding: 1em;
+    width: 70%;
+    height: 15em;
+    border-radius: 15px;
+    z-index: 11; /* Certifique-se de que está acima do fundo blur */
+    display: none;
+}
+
+.div_btn {
+    width: 100%;
+    justify-content: space-between;
+}
+
+.div_btn button, form button {
+    font-size: 1.2em;
+    width: 8.5em;
+    height: auto;
+    padding: 5px;
+    background-color: var(--cinzinha);
+    border-radius: 5px;
+    border: 1px solid var(--cinzao);
+    box-shadow: 0px 2px -4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.div_btn form button {
+    background-color: var(--vermeio);
+    color: whitesmoke;
+}
+
+.div_btn button:hover, form button:hover {
+    transition: all 0.3s ease;
+    transform: scale(1.025);
+}
+
+#fundoblur {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.75); /* A cor preta com opacidade para o efeito blur */
+    display: none;
+    z-index: 5; /* Fundo do modal */
+}
+
+
 article {
     display: flex;
     flex-direction: row;
@@ -336,6 +398,7 @@ header {
     background-color: transparent;
     border: none;
     position: relative;
+    text-align: left;
     transition: all 0.3s ease-in-out;
 }
 #delete:hover {
