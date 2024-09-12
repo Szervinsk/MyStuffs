@@ -45,15 +45,22 @@ searchbar.addEventListener('input', () => {
     let tableRows = document.querySelectorAll('tbody tr');
 
     tableRows.forEach(row => {
-        let rowText = row.innerText.toLowerCase();
+        let rowText = '';
+
+        let inputs = row.querySelectorAll('.inputs');
+        
+        inputs.forEach(input => {
+            rowText += input.value.toLowerCase(); // Concatena o valor de cada input
+        });
 
         if (rowText.includes(searchValue)) {
-            row.style.display = '';  // Mostra a linha se o conteúdo corresponder ao filtro
+            row.style.display = '';  
         } else {
-            row.style.display = 'none';  // Esconde a linha se não corresponder
+            row.style.display = 'none';  
         }
     });
 });
+
 
 let radio = document.querySelectorAll('.tr')
 radio.addEventListener('click', (e)=> {
