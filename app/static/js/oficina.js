@@ -96,6 +96,19 @@ document.addEventListener('DOMContentLoaded', function() {
         
     });
 
+    let favoritos = document.getElementById('favoritos');
+    favoritos.addEventListener('click', (e) => {
+        e.preventDefault();
+        let div = document.getElementById('div_favoritos');
+        
+        // Verificar o estilo atual de display da div
+        if (div.style.display === 'flex') {
+            div.style.display = 'none';  // Ocultar se estiver visível
+        } else {
+            div.style.display = 'flex';  // Exibir se estiver oculto
+        }
+    });
+
     let lixeira = document.getElementById('lixeira');
     lixeira.addEventListener('click', (e) => {
         e.preventDefault();
@@ -109,3 +122,39 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    function favorite(element, noteId) {
+
+        if (element.style.color === 'gold') {
+            console.log('desativou');
+            element.style.color = 'grey';
+
+            fetch(`/toggle-favorite`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',  // Informa que o conteúdo é JSON
+                },
+                body: JSON.stringify({
+                    id: noteId,        // Envia o ID da nota
+                    isFavorite: 0      // Indica que a nota foi marcada como favorita
+                }),
+            })
+            .then(response => response.json())
+        } else {
+            console.log('ativou');
+            element.style.color = 'gold';
+    
+            // Envia os dados via fetch
+            fetch(`/toggle-favorite`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',  // Informa que o conteúdo é JSON
+                },
+                body: JSON.stringify({
+                    id: noteId,        // Envia o ID da nota
+                    isFavorite: 1      // Indica que a nota foi marcada como favorita
+                }),
+            })
+            .then(response => response.json())
+        }
+    }
+    

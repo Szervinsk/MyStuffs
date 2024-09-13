@@ -264,6 +264,21 @@ def adm():
     else:
         return clt.render('login', error='Você não tem acesso a essa página')
 
+@app.route('/toggle-favorite', method='POST')
+def star():
+
+    session_id = clt.get_session_id()
+    username = db.get_user_by_session(session_id)
+
+    id = request.json.get('id')
+    isFavorite =  request.json.get('isFavorite')
+
+    print(f'ID: {id}, Favorito: {isFavorite}')
+    if db.starSet(id, isFavorite):
+        return redirect(f'/oficina/{username}') and {'status': 'success'}
+    else: 
+        return "Erro ao favoritar!"
+
 
 #-----------------------------------------------------------------------------#
 if __name__ == '__main__':

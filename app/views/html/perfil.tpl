@@ -104,7 +104,7 @@
                             <h2 class="tagPerfil">Avatar</h2>
                             <div id="div_perfil">
                                 <article>
-                                    <div><img src="../../static/img/studying.jpg" alt="user_photo"></div>
+                                    <div><img src="../../static/img/userphoto.png" alt="user_photo"></div>
                                     <h2> Faça o upload de uma foto<br>Aceitamos: jpg, png e jpeg</h2>
                                 </article>
                             </div>

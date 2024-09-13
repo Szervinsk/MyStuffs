@@ -58,6 +58,7 @@ class DatabaseManager:
                 title TEXT DEFAULT '',
                 content TEXT DEFAULT '',
                 created_at TEXT DEFAULT '',
+                is_favorite INTEGER DEFAULT 0,
                 FOREIGN KEY(username) REFERENCES users(username)
             )''')
 
@@ -117,7 +118,7 @@ class DatabaseManager:
     def get_notes(self, username):
         self.connect()
         try:
-            self.cursor.execute('SELECT title, content, created_at, id FROM notes WHERE username = ?', (username,))
+            self.cursor.execute('SELECT title, content, created_at, id, is_favorite FROM notes WHERE username = ?', (username,))
             notes = self.cursor.fetchall()  # Retorna todas as notas
 
             if notes:  # Verifica se há resultados
@@ -354,5 +355,19 @@ class DatabaseManager:
 
         return users, sessoes, perfis, notes, lixos
     
+    def starSet(self, id, isFavorite):
+        self.connect()
+        
+        try:
+            self.cursor.execute('UPDATE notes SET is_favorite = ? WHERE id = ?', (isFavorite, id))
+            self.conn.commit() 
+            print(f"Nota {id} atualizada com sucesso. is_favorite = {isFavorite}")
+            return True
+        except sqlite3.Error as e:
+            print(f"Erro ao atualizar a nota: {e}")
+            self.conn.rollback() 
+            return False
+        finally:
+            self.close()
 
 

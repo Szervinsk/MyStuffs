@@ -273,7 +273,7 @@ section {
 #lixeira {
     cursor: pointer;
 }
-#div_lixeira , #div_pasta{
+#div_lixeira , #div_pasta, #div_favoritos{
     display: none;
     transition: all 0.3s ease;
     animation: UpDown 0.1s ease;

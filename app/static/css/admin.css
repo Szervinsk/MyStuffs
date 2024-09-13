@@ -3,6 +3,7 @@
 * {
     --azule: #11214B;
     --azulao: #0085FF;
+    --azulzin: #0084ff75;
     --vermeio: #ff2c2c;
     --cinzinha: #D9D9D9;
     --cinzpost: #E3E3E3;
@@ -207,7 +208,7 @@ main {
 }
 
 .tags_table:hover {
-    background-color: #0084ffd3;
+    background-color: var(--azulzin);
     color: black;
     opacity: 1; 
     transform: scale(1.05);

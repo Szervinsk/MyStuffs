@@ -80,7 +80,7 @@
                 <table>
                     <thead>
                         <tr>
-                            <th><input type="checkbox" name="" id=""></th>
+                            <th></th>
                             <th>id</th>
                             <th>Nome</th>
                             <th>Senha</th>
@@ -89,10 +89,10 @@
                     <tbody>
                         % for user in users:
                         <tr>
-                            <th><input type="checkbox" name="" id=""></th>
-                            <th><input class="inputs" type="text" value="{{user[0]}}"></th>
-                            <th><input class="inputs" type="text" value="{{user[1]}}"></th>
-                            <th><input class="inputs" type="text" value="{{user[2]}}"></th>
+                            <th><input class="row-select" type="checkbox" name="" id=""></th>
+                            <th><input class="inputs" type="text" value="{{user[0]}}" readonly="true"></th>
+                            <th><input class="inputs , username" type="text" value="{{user[1]}}" readonly="true"></th>
+                            <th><input class="inputs" type="text" value="{{user[2]}}" readonly="true"></th>
                         </tr>
                         % end
                     </tbody>
@@ -105,7 +105,7 @@
                 <table>
                     <thead>
                         <tr>
-                            <th><input type="checkbox" name="" id=""></th>
+                            <th></th>
                             <th>Sessão</th>
                             <th>Usuário</th>
                         </tr>
@@ -113,9 +113,9 @@
                     <tbody>
                         % for sessao in sessoes:
                         <tr>
-                            <th><input type="checkbox" name="" id=""></th>
-                            <th><input class="inputs" type="text" value="{{sessao[0]}}"></th>
-                            <th><input class="inputs" type="text" value="{{sessao[1]}}"></th>
+                            <th><input class="row-select" type="checkbox" name="" id=""></th>
+                            <th><input class="inputs" type="text" value="{{sessao[0]}}" readonly="true"></th>
+                            <th><input class="inputs , username" type="text" value="{{sessao[1]}}" readonly="true"></th>
                         </tr>
                         % end
                     </tbody>
@@ -128,7 +128,7 @@
                 <table>
                     <thead>
                         <tr>
-                            <th><input type="checkbox" name="" id=""></th>
+                            <th></th>
                             <th>id</th>
                             <th>Username</th>
                             <th>Nome pessoal</th>
@@ -140,13 +140,13 @@
                     <tbody>
                         % for perfil in perfis:
                         <tr>
-                            <th><input type="checkbox" name="" id=""></th>
-                            <th><input class="inputs" type="text" value="{{perfil[0]}}"></th>
-                            <th><input class="inputs" type="text" value="{{perfil[1]}}"></th>
-                            <th><input class="inputs" type="text" value="{{perfil[3]}}"></th>
-                            <th><input class="inputs" type="text" value="{{perfil[4]}}"></th>
-                            <th><input class="inputs" type="text" value="{{perfil[5]}}"></th>
-                            <th><input class="inputs" type="text" value="{{perfil[6]}}"></th>
+                            <th><input class="row-select" type="checkbox" name="" id="" ></th>
+                            <th><input class="inputs" type="text" value="{{perfil[0]}}" readonly="true"></th>
+                            <th><input class="inputs , username" type="text" value="{{perfil[1]}}" readonly="true"></th>
+                            <th><input class="inputs" type="text" value="{{perfil[3]}}" readonly="true"></th>
+                            <th><input class="inputs" type="text" value="{{perfil[4]}}" readonly="true"></th>
+                            <th><input class="inputs" type="text" value="{{perfil[5]}}" readonly="true"></th>
+                            <th><input class="inputs" type="text" value="{{perfil[6]}}" readonly="true"></th>
                         </tr>
                         % end
                     </tbody>
@@ -158,7 +158,7 @@
                 <table>
                     <thead>
                         <tr>
-                            <th><input type="checkbox" name="" id=""></th>
+                            <th></th>
                             <th>id</th>
                             <th>Nome</th>
                             <th>Titulo</th>
@@ -170,11 +170,11 @@
                         % for note in notes:
                         <tr>
                             <th><input type="checkbox" name="" id=""></th>
-                            <th><input class="inputs" type="text" value="{{note[0]}}"></th>
-                            <th><input class="inputs" type="text" value="{{note[1]}}"></th>
-                            <th><input class="inputs" type="text" value="{{note[2]}}"></th>
-                            <th><input class="inputs , conteudo" type="text" value="{{note[3]}}"></th>
-                            <th><input class="inputs" type="text" value="{{note[4]}}"></th>
+                            <th><input class="inputs" type="text" value="{{note[0]}}" readonly="true"></th>
+                            <th><input class="inputs , username" type="text" value="{{note[1]}}" readonly="true"></th>
+                            <th><input class="inputs" type="text" value="{{note[2]}}" readonly="true"></th>
+                            <th><input class="inputs , conteudo" type="text" value="{{note[3]}}" readonly="true"></th>
+                            <th><input class="inputs" type="text" value="{{note[4]}}" readonly="true"></th>
                         </tr>
                         % end
                     </tbody>
@@ -185,7 +185,7 @@
                 <table>
                     <thead>
                         <tr>
-                            <th><input type="checkbox" name="" id=""></th>
+                            <th></th>
                             <th>id</th>
                             <th>Nome</th>
                             <th>Titulo</th>
@@ -197,11 +197,11 @@
                         % for lixo in lixos:
                         <tr>
                             <th><input type="checkbox" name="" id="tr"></th>
-                            <th><input class="inputs" type="text" value="{{lixo[0]}}"></th>
-                            <th><input class="inputs" type="text" value="{{lixo[1]}}"></th>
-                            <th><input class="inputs" type="text" value="{{lixo[2]}}"></th>
-                            <th><input class="inputs , conteudo" type="text" value="{{lixo[3]}}"></th>
-                            <th><input class="inputs" type="text" value="{{lixo[4]}}"></th>
+                            <th><input class="inputs" type="text" value="{{lixo[0]}}" readonly="true"></th>
+                            <th><input class="inputs , username" type="text" value="{{lixo[1]}}" readonly="true"></th>
+                            <th><input class="inputs" type="text" value="{{lixo[2]}}" readonly="true"></th>
+                            <th><input class="inputs , conteudo" type="text" value="{{lixo[3]}}" readonly="true"></th>
+                            <th><input class="inputs" type="text" value="{{lixo[4]}}" readonly="true"></th>
                         </tr>
                         % end
                     </tbody>

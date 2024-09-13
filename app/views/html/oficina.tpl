@@ -51,7 +51,7 @@
             <a href="/perfil/{{current_user}}">
                 <div id="div_perfil">
                     
-                    <div><img src="../../static/img/studying.jpg" alt=""></div>
+                    <div><img src="../../static/img/userphoto.png" alt=""></div>
                     <h1 class="tags" id="username"> {{current_user}} </h1>
                     
                     <form action="/logout" method="post">
@@ -87,6 +87,23 @@
                                     </ul>
                                 </div>
                             </div>
+
+                            <li class="pastas_li" id="favoritos"><i id="icon" class="bi bi-star"></i></i> Favoritos</li>
+                            <div id="div_favoritos" class="depe">
+                                <div>
+                                    <ul>
+                                        % for note in notes:
+                                            % if note[4] == 1:
+                                            <li class="lis_pastas" onclick="switchSection('edit_notes', '{{note[0]}}', '{{note[1]}}', '{{note[2]}}', '{{note[3]}}')">
+                                                <i style="font-size: 10px;" class="bi bi-arrow-return-right"></i>  
+                                                {{note[0]}}
+                                            </li> 
+                                            % end
+                                        % end
+                                    </ul>
+                                </div>
+                            </div>
+
                             <li class="pastas_li" id="lixeira"><i class="bi bi-trash3"></i></i> Lixeira</li>
                             <div id="div_lixeira" class="depe">
                                 <div>
@@ -99,9 +116,6 @@
                             </div>
                     </ul>
                     
-                    <!-- <div id="add_pastas">
-                        <button class="buttons"> Criar pasta + </button>
-                    </div> -->
                 </div>
 
                 <hr>
@@ -113,9 +127,13 @@
                             <h3 class="title">{{note[0]}}</h3>  <!-- title -->
                             <hr>
                             <p>{{!note[1]}}</p>   <!-- content -->
-                            
+                            gayyyy
                             <div class="deladin">
-                                <h6>Tag dele</h6>
+                                % if note[4] == 1:
+                                    <h6><i style="font-size: 1.5em; color:gold" onclick="favorite(this, '{{note[3]}}')" class="bi bi-star-fill"></i></h6>
+                                % else:
+                                    <h6><i style="font-size: 1.5em; color:grey;" onclick="favorite(this, '{{note[3]}}')" class="bi bi-star-fill"></i></h6>
+                                % end
                                 <h6>{{note[2]}}</h6>  <!-- created_at -->
                             </div>
                         </div>

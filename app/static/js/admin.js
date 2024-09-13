@@ -62,7 +62,30 @@ searchbar.addEventListener('input', () => {
 });
 
 
-let radio = document.querySelectorAll('.tr')
-radio.addEventListener('click', (e)=> {
-    console.log('opa')
-})
+let checkboxes = document.querySelectorAll('.row-select');
+
+checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('click', function() {
+        // Pega a linha (tr) que contém o checkbox
+        let row = this.closest('tr');
+        let inputs = row.querySelectorAll('input');
+
+        if (this.checked) {
+            row.style.backgroundColor = '#0084ff75';
+            inputs.forEach(input => {
+                if (input.classList.contains('username')) {
+                    input.setAttribute('readonly', 'true'); 
+                } else {
+                    input.removeAttribute('readonly');
+                }
+            });
+        } else {
+            row.style.backgroundColor = ''; 
+            inputs.forEach(input => {
+                input.setAttribute('readonly', 'true'); 
+            });
+        }
+        
+    });
+});
+
