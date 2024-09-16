@@ -184,7 +184,7 @@ def send_lixeira():
         response.set_cookie('message','Error 404')
     redirect(f'/oficina/{username}')
 
-@app.route('/perfil/<username>', method='GET')
+@app.route('/configuracoes/<username>', method='GET')
 def perfil(username=None):
     message = request.get_cookie('message')
     response.delete_cookie('message')  # Remove o cookie após usá-lo

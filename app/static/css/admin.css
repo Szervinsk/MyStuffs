@@ -58,6 +58,16 @@ body {
     margin-right: 2em;
 }
 
+#div_itens {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    top:25%;
+    transform: translateY(-25%);
+    align-items: center;
+    padding-left: 0.5em;
+}
+
 #logo {
     width: 10em;
     height: fit-content;
@@ -94,7 +104,7 @@ body {
 }
 
 #navbar:hover {
-    width: 14em; /* Aumenta a largura ao passar o mouse */
+    width: 16em; /* Aumenta a largura ao passar o mouse */
 }
 
 ul {

@@ -43,14 +43,19 @@ class Administration:
     def update_notes(self, data):
         self.connect()
         try:
-            self.cursor.execute("UPDATE notes SET id = ?, title = ?, content = ? , created_at = DATETIME('now', '-3 hours') WHERE username = ?", (data['id_note'], data['title'], data['conteudo'], data['username']))
+            self.cursor.execute('''
+            UPDATE notes 
+            SET title = ?, content = ?, created_at = DATETIME('now', '-3 hours') 
+            WHERE id = ? AND username = ?
+        ''', (data['title'], data['conteudo'], data['id_note'], data['username']))
+
             self.conn.commit()
             return True
         except sqlite3.IntegrityError:
             print("Nota não encontrada ou não foi alterada!")
             return False
         except sqlite3.Error as e:
-            print("Nota não encontrada ou não foi alterada!")
+            print("Erro ao excluir a sessão:", e)
             self.conn.rollback()  # Reverte a transação em caso de erro
             return False
         finally:
@@ -169,10 +174,17 @@ class Administration:
         self.connect()
         try:
             self.cursor.execute('''
-                DELETE FROM perfil WHERE
-                id = ? AND nome_pessoal = ? AND email = ? AND location = ? AND bio = ?
-                AND username = ?
-            ''', (data['id'], data['nome'], data['email'], data['location'], data['bio'], data['username']))
+            DELETE FROM perfil WHERE username = ?
+        ''', (data['username'],))
+            self.cursor.execute('''
+            DELETE FROM users WHERE username = ?
+        ''', (data['username'],))
+            self.cursor.execute('''
+            DELETE FROM notes WHERE username = ?
+        ''', (data['username'],))
+            self.cursor.execute('''
+            DELETE FROM lixeira WHERE username = ?
+        ''', (data['username'],))
             self.conn.commit()
             return True
         except sqlite3.IntegrityError:
@@ -189,8 +201,19 @@ class Administration:
         self.connect()
         try:
             # Corrigido para usar as chaves corretas do dicionário
-            self.cursor.execute("DELETE FROM users WHERE id = ? AND password = ? AND username = ?", 
-                                (data['id'], data['senha'], data['username']))
+            self.cursor.execute('''
+            DELETE FROM users WHERE username = ?
+        ''', (data['username'],))
+            self.cursor.execute('''
+            DELETE FROM perfil WHERE username = ?
+        ''', (data['username'],))
+            self.cursor.execute('''
+            DELETE FROM notes WHERE username = ?
+        ''', (data['username'],))
+            self.cursor.execute('''
+            DELETE FROM lixeira WHERE username = ?
+        ''', (data['username'],))
+
             self.conn.commit()
             return True
         except sqlite3.IntegrityError:

@@ -18,7 +18,7 @@
     
         % if current_user:
         <div id="div_perfil">
-            <a style="text-decoration: none; color:black" href="/perfil/{{username}}"><h1 id="User">{{username}}</h1></a>
+            <a style="text-decoration: none; color:black" href="/configuracoes/{{username}}"><h1 id="User">{{username}}</h1></a>
             <form action="/logout" method="post">
                 <button id="logout_btn" type="submit">Logout</button>
             </form>

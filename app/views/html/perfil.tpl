@@ -41,11 +41,19 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/configuracoes">
+                        <a href="/configuracoes/{{current_user}}">
                             <i class="bi bi-gear-fill"></i>
                             <h2 class="tags"> Configurações </h2>
                         </a>
                     </li>
+                    % if current_user == 'admin':
+                    <li>
+                        <a href="/administracao">
+                            <i class="bi bi-table"></i>
+                            <h2 class="tags"> Administração </h2>
+                        </a>
+                    </li>
+                    % end
                 </ul>
             </div>                
         </nav>
@@ -65,7 +73,6 @@
                     <ul>
                         <li onclick="switchSection('profile', 'Editar perfil')"><i class="bi bi-person-fill"></i> Editar perfil</li>
                         <li onclick="switchSection('password', 'Alterar senha')"><i class="bi bi-shield-shaded"></i> Alterar Senha</li>
-                        <li onclick="switchSection('tools', 'Outras ferramentas')"><i class="bi bi-tools"></i> Outras ferramentas</li>
                     </ul>
     
                     <button id="delete"> Deletar conta <i class="bi bi-person-dash"></i> </button>   
@@ -178,14 +185,6 @@
                                         <button class="btn" id="alterar" type="submit" disabled="true"> Alterar senha </button>
                                     </form>
                                 </div>
-                            </div>
-                        </section>
-                    </div>
-                
-                    <div id="tools" style="display: none;">
-                        <section>
-                            <div id="ferramentas">
-                                ferramentas
                             </div>
                         </section>
                     </div>

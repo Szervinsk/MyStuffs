@@ -1,5 +1,5 @@
 function switchSection(sectionId, title) {
-    const sections = ['profile', 'password', 'tools'];
+    const sections = ['profile', 'password'];
     sections.forEach(id => {
         document.getElementById(id).style.display = (id === sectionId) ? 'flex' : 'none';
     });

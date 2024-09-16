@@ -41,7 +41,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/configuracoes">
+                        <a href="/configuracoes/{{username}}">
                             <i class="bi bi-gear-fill"></i>
                             <h2 class="tags"> Configurações </h2>
                         </a>
@@ -125,13 +125,10 @@
 
                     <form class="form" action="/delete_adm" method="post">
                         <input name="tabela" type="hidden">
-                        <label for="id"> id :</label>
                         <input class="inputs id" name="id" type="hidden">
                         
-                        <label for="username">Nome:</label>
                         <input class="inputs username" name="username" type="hidden" readonly='true'>
                         
-                        <label for="Senha">Senha:</label>
                         <input class="inputs Senha" name="senha" type="hidden">
 
                         <button>Não</button>
@@ -268,13 +265,13 @@
                         
                         <input class="inputs username" name="username" type="hidden" readonly='true'>
 
-                        <input class="inputs nome" name="nome" type="text" readonly='true'>
+                        <input class="inputs nome" name="nome" type="hidden" readonly='true'>
                         
-                        <input class="inputs email" name="email" type="text" readonly="hidden">
+                        <input class="inputs email" name="email" type="hidden" readonly="true">
                         
-                        <input class="inputs location" name="location" type="hidden" readonly="hidden">
+                        <input class="inputs location" name="location" type="hidden" readonly="true">
                         
-                        <input class="inputs bio" name="bio" type="text" readonly="hidden">
+                        <input class="inputs bio" name="bio" type="hidden" readonly="true">
                         
                         <h2> Tem certeza?</h2>
                         

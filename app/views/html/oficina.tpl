@@ -40,15 +40,23 @@
                         </a>
                     </li>   
                     <li>
-                        <a href="/configuracoes">
+                        <a href="/configuracoes/{{current_user}}">
                             <i class="bi bi-gear-fill"></i>
                             <h2 class="tags"> Configurações </h2>
                         </a>
                     </li>
+                    % if current_user == 'admin':
+                    <li>
+                        <a href="/administracao">
+                            <i class="bi bi-table"></i>
+                            <h2 class="tags"> Administração </h2>
+                        </a>
+                    </li>
+                    % end
                 </ul>
             </div>
 
-            <a href="/perfil/{{current_user}}">
+            <a href="/configuracoes/{{current_user}}">
                 <div id="div_perfil">
                     
                     <div><img src="../../static/img/userphoto.png" alt=""></div>
@@ -59,7 +67,6 @@
                     </form>
                 </div>
             </a>
-                
         </nav>
     </div>
 
