@@ -1,10 +1,12 @@
 from app.controllers.application import Application
 from bottle import Bottle, request, redirect, static_file, response, run
 from database import DatabaseManager
+from admin import Administration
 
 app = Bottle()
 clt = Application()
 db = DatabaseManager()
+adm = Administration()
 
 # Inicializa as tabelas do banco de dados
 db.create_tables()
@@ -248,8 +250,27 @@ def delete_account():
     else:
         return "Usuário não encontrado ou sessão inválida."
 
+@app.route('/toggle-favorite', method='POST')
+def star():
+    session_id = clt.get_session_id()
+    username = db.get_user_by_session(session_id)
+
+    id = request.forms.get('id')
+    is_favorite = request.forms.get('toggle')
+
+    # Define o novo status de favorito com base no valor do botão
+    new_favorite_status = 1 if is_favorite == 'favorite' else 0
+
+    print(f'ID: {id}, Favorito: {new_favorite_status}')
+    if db.starSet(id, new_favorite_status):
+        return redirect(f'/oficina/{username}')  # Redireciona após atualizar
+    else: 
+        return "Erro ao favoritar!", 400  # Retorna erro se falhar
+    
 @app.route('/administracao', method='GET')
-def adm():
+def admin():
+    response.delete_cookie('message')
+
     session_id = clt.get_session_id()
     username = db.get_user_by_session(session_id)
     
@@ -258,26 +279,117 @@ def adm():
         message = request.get_cookie('message')
         response.delete_cookie('message') 
 
-        users,sessoes, perfis, notes, lixos = db.getTables()
+        users,sessoes, perfis, notes, lixos = adm.getTables()
 
         return clt.render('admin', username=username, message=message , users=users, sessoes=sessoes, perfis=perfis, notes=notes, lixos=lixos)
     else:
         return clt.render('login', error='Você não tem acesso a essa página')
 
-@app.route('/toggle-favorite', method='POST')
-def star():
+@app.route('/edit_adm', method='POST')
+def edit_from_adm():
+    table = request.forms.get('tabela')
 
-    session_id = clt.get_session_id()
-    username = db.get_user_by_session(session_id)
+    # Captura todos os dados possíveis, mas não assume que todos estarão presentes
+    data = {
+        'id': request.forms.get('id'),
+        'id_note': request.forms.get('id_note'),
+        'id_lixeira': request.forms.get('id_lixeira'),
+        'session_id': request.forms.get('session_id'),
 
-    id = request.json.get('id')
-    isFavorite =  request.json.get('isFavorite')
+        'username': request.forms.get('username'),
+        'senha': request.forms.get('senha'),
 
-    print(f'ID: {id}, Favorito: {isFavorite}')
-    if db.starSet(id, isFavorite):
-        return redirect(f'/oficina/{username}') and {'status': 'success'}
-    else: 
-        return "Erro ao favoritar!"
+        'title': request.forms.get('title'),
+        'conteudo': request.forms.get('conteudo'),
+        'data': request.forms.get('data'),
+
+        'nome': request.forms.get('nome'),
+        'email': request.forms.get('email'),
+        'location': request.forms.get('location'),
+        'bio': request.forms.get('bio'),
+    }
+
+    # Remove os campos que estão vazios ou não foram enviados
+    data = {key: value for key, value in data.items() 
+            if value is not None and value != ''}
+    
+    print(data)
+
+    if table == 'users':
+        if adm.update_usuarios(data):
+            redirect('/administracao')
+            response.set_cookie('message', 'dados de usuários atualizados com sucesso!', max_age=2)
+    elif table == 'sessions':
+        if adm.update_session(data):
+            redirect('/administracao')
+            response.set_cookie('message', 'dados de sessões atualizados com sucesso!', max_age=2)
+    elif table == 'perfil':
+        if adm.update_perfis(data):
+            redirect('/administracao')
+            response.set_cookie('message', 'dados de perfil atualizados com sucesso!', max_age=2)
+    elif table == 'notes':
+        if adm.update_notes(data):
+            redirect('/administracao')
+            response.set_cookie('message', 'dados de notas atualizados com sucesso!', max_age=2)
+    elif table == 'lixeira':
+        if adm.update_lixeira(data):
+            redirect('/administracao')
+            response.set_cookie('message', 'dados de lixeira atualizados com sucesso!', max_age=2)
+    else:
+        return "Tabela não encontrada."
+    
+@app.route('/delete_adm', method='POST')
+def delete_from_adm():
+    table = request.forms.get('tabela')
+
+    # Captura todos os dados possíveis, mas não assume que todos estarão presentes
+    data = {
+        'id': request.forms.get('id'),
+        'id_note': request.forms.get('id_note'),
+        'id_lixeira': request.forms.get('id_lixeira'),
+        'session_id': request.forms.get('session_id'),
+
+        'username': request.forms.get('username'),
+        'senha': request.forms.get('senha'),
+
+        'title': request.forms.get('title'),
+        'conteudo': request.forms.get('conteudo'),
+        'data': request.forms.get('data'),
+
+        'nome': request.forms.get('nome'),
+        'email': request.forms.get('email'),
+        'location': request.forms.get('location'),
+        'bio': request.forms.get('bio'),
+    }
+
+    # Remove os campos que estão vazios ou não foram enviados
+    data = {key: value for key, value in data.items() 
+            if value is not None and value != ''}
+    
+    print(data)
+
+    if table == 'users':
+        if adm.delete_usuarios(data):
+            redirect('/administracao')
+            response.set_cookie('message', 'dados de usuários deletados com sucesso!', max_age=2)
+    elif table == 'sessions':
+        if adm.delete_session(data):
+            redirect('/administracao')
+            response.set_cookie('message', 'dados de sessões deletados com sucesso!', max_age=2)
+    elif table == 'perfil':
+        if adm.delete_perfis(data):
+            redirect('/administracao')
+            response.set_cookie('message', 'dados de perfil deletados com sucesso!', max_age=2)
+    elif table == 'notes':
+        if adm.delete_notes(data):
+            redirect('/administracao')
+            response.set_cookie('message', 'dados de notas deletados com sucesso!', max_age=2)
+    elif table == 'lixeira':
+        if adm.delete_lixeira(data):
+            redirect('/administracao')
+            response.set_cookie('message', 'dados de lixeira deletados com sucesso!', max_age=2)
+    else:
+        return "Tabela não encontrada."
 
 
 #-----------------------------------------------------------------------------#

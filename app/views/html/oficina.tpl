@@ -122,18 +122,20 @@
 
                 <div id="bloquin">
                     % for note in notes:
-                    <div class="bloquin" onclick="switchSection('edit_notes', '{{note[0]}}', '{{note[1]}}', '{{note[2]}}', '{{note[3]}}')">
-
+                        <div class="bloquin" onclick="switchSection('edit_notes', '{{note[0]}}', '{{note[1]}}', '{{note[2]}}', '{{note[3]}}')">
                             <h3 class="title">{{note[0]}}</h3>  <!-- title -->
                             <hr>
                             <p>{{!note[1]}}</p>   <!-- content -->
-                            gayyyy
-                            <div class="deladin">
-                                % if note[4] == 1:
-                                    <h6><i style="font-size: 1.5em; color:gold" onclick="favorite(this, '{{note[3]}}')" class="bi bi-star-fill"></i></h6>
-                                % else:
-                                    <h6><i style="font-size: 1.5em; color:grey;" onclick="favorite(this, '{{note[3]}}')" class="bi bi-star-fill"></i></h6>
-                                % end
+                            <div id="id_fav" class="deladin">
+                                <form action="/toggle-favorite" method="post">
+                                    <input type="hidden" name="id" value="{{note[3]}}">
+                                    <input type="hidden" name="is_favorite" value="{{note[4]}}">
+                                    % if note[4] == 1:
+                                        <button class="star_btn" type="submit" name="toggle" value="unfavorite"><i style="font-size: 1.25em; color:gold" class="bi bi-star-fill"></i></button>
+                                    % else:
+                                        <button class="star_btn" type="submit" name="toggle" value="favorite"><i style="font-size: 1.25em; color:grey;" class="bi bi-star-fill"></i></button>
+                                    % end
+                                </form>
                                 <h6>{{note[2]}}</h6>  <!-- created_at -->
                             </div>
                         </div>

@@ -261,6 +261,21 @@ section {
     opacity: 0.5;
 }
 
+.star_btn {
+    border: none;
+    font-size: 0.75em;
+    background-color: transparent;
+}
+.star_btn i {
+    stroke: 1px black;
+}
+
+#id_fav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 #pastas {
     margin-bottom: 1em;
 }
