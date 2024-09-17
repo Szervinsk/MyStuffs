@@ -87,7 +87,7 @@ def alterarSenha():
     db.update_password(username, password)
 
     response.set_cookie('message', 'Sua senha foi alterada com sucesso!', max_age=2)
-    redirect(f'/perfil/{username}')
+    redirect(f'/configuracoes/{username}')
 
 @app.route('/logout', method='POST')
 def logout():
@@ -219,7 +219,7 @@ def editar_perfil():
 
         if db.update_perfil(username, nome, email, location, bio):
             response.set_cookie('message', 'Perfil atualizado com sucesso!', max_age=2)
-            redirect(f'/perfil/{username}')
+            redirect(f'/configuracoes/{username}')
         else:
             return "Erro ao atualizar o perfil."
 
